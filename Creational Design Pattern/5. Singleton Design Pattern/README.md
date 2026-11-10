@@ -2,7 +2,7 @@
 
 # 1️⃣ Singleton Design Pattern
 
-![Category](https://img.shields.io/badge/Category-Creational-2ea44f?style=for-the-badge) ![Language](https://img.shields.io/badge/Java-ED8B00?style=for-the-badge&logo=openjdk&logoColor=white) ![Examples](https://img.shields.io/badge/Examples-5-blue?style=for-the-badge) ![Files](https://img.shields.io/badge/Java_files-10-lightgrey?style=for-the-badge)
+![Category](https://img.shields.io/badge/Category-Creational-2ea44f?style=for-the-badge) ![Language](https://img.shields.io/badge/Java-ED8B00?style=for-the-badge&logo=openjdk&logoColor=white) ![Examples](https://img.shields.io/badge/Examples-6-blue?style=for-the-badge) ![Files](https://img.shields.io/badge/Java_files-12-lightgrey?style=for-the-badge)
 
 *Exactly one instance, one global access point.*
 
@@ -25,6 +25,7 @@
   - [3. 💡 Synchronized method](#ex3)
   - [4. 💡 Double-checked locking (with `volatile`)](#ex4)
   - [5. 💡 Bill Pugh singleton (static holder class)](#ex5)
+  - [6. 💡 Enum singleton](#ex6)
 
 ---
 
@@ -36,7 +37,7 @@
 
 | 😣 Problem | 💡 Solution |
 |---|---|
-| Several parts of the application create their own `DBConnection`, wasting resources and causing inconsistent state. | Make the constructor private and expose a static `getInstance()`. This folder walks through five ways to do it, from the simplest to the most elegant one. |
+| Several parts of the application create their own `DBConnection`, wasting resources and causing inconsistent state. | Make the constructor private and expose a static `getInstance()`. This folder walks through six ways to do it, from the simplest to the most bullet-proof one. |
 
 ## 🔷 Structure
 
@@ -83,7 +84,7 @@ classDiagram
 
 ## 💻 Code
 
-This folder has **5 examples** (10 Java files). Interfaces and abstract classes come first, the class with `main` comes last.
+This folder has **6 examples** (12 Java files). Interfaces and abstract classes come first, the class with `main` comes last.
 
 <a id="ex1"></a>
 
@@ -487,6 +488,109 @@ public class Main {
 # run from the repository root
 mkdir -p out
 find "Creational Design Pattern/5. Singleton Design Pattern/5. Bill Pugh Singleton" -name "*.java" -print0 | xargs -0 javac -d out
+java -cp out Main
+```
+
+</details>
+
+---
+
+<a id="ex6"></a>
+
+### 6. 💡 Enum singleton
+
+> A single-constant `enum` (`INSTANCE`). The JVM guarantees one instance, and it is safe against threads, serialization and reflection.
+
+> ### 🔍 Why does an enum work, and why is it considered the best?
+>
+> | Threat | Plain class singleton | **Enum singleton** |
+> |---|---|---|
+> | **Multiple threads** | needs `synchronized` / `volatile` / holder class | ✅ the JVM initialises the enum class once, thread-safely |
+> | **Serialization** | deserializing creates a **new** object (needs `readResolve()`) | ✅ an enum is serialized by *name* and read back as the same constant |
+> | **Reflection** | `setAccessible(true)` on the private constructor creates a 2nd object | ✅ `Constructor.newInstance()` throws *Cannot reflectively create enum objects* |
+> | **Boilerplate** | private constructor, static field, `getInstance()` | ✅ one line: `INSTANCE;` |
+>
+> `Main` in this example proves the last three rows: it prints `true` after a serialization round trip and shows the reflection attack being blocked.
+>
+> **Trade-offs**
+> - An enum **cannot extend another class** (it can implement interfaces).
+> - You cannot pass constructor arguments at call time.
+> - The instance is created when the enum class is first used (not at JVM start), but you cannot customise *when*.
+>
+> **Rule of thumb:** use the enum when you want the strongest guarantee with the least code; use the Bill Pugh holder when you must extend a class or want a classic `getInstance()` API.
+
+<details open>
+<summary><b>📁 Files in this example</b></summary>
+
+```text
+6. Enum Singleton/
+├── DBConnection.java
+└── Main.java
+```
+
+</details>
+
+#### 📄 `DBConnection.java`
+
+<sub>enum · 11 lines</sub>
+
+```java
+// Enum Singleton (recommended by Joshua Bloch, Effective Java, Item 3).
+// The JVM creates exactly one constant, INSTANCE, and nothing else can ever create another.
+public enum DBConnection {
+
+    INSTANCE;   // the one and only object
+
+    // normal fields and methods work exactly like in a class
+    public void connect() {
+        System.out.println("Connected using " + this.hashCode());
+    }
+}
+```
+
+#### 📄 `Main.java`
+
+<sub>class · 29 lines</sub>
+
+```java
+import java.io.*;
+import java.lang.reflect.Constructor;
+
+public class Main {
+    public static void main(String [] args) throws Exception {
+
+        DBConnection connObject1 = DBConnection.INSTANCE;
+        DBConnection connObject2 = DBConnection.INSTANCE;
+        System.out.println(connObject1 == connObject2);//true
+        connObject1.connect();
+
+        // 1) Serialization cannot create a second object: the enum is read back by its NAME,
+        //    so we get the same constant, not a copy.
+        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+        new ObjectOutputStream(bytes).writeObject(connObject1);
+        DBConnection afterSerialization = (DBConnection) new ObjectInputStream(
+                new ByteArrayInputStream(bytes.toByteArray())).readObject();
+        System.out.println(connObject1 == afterSerialization);//true
+
+        // 2) Reflection cannot create a second object: the JVM refuses to build enum instances.
+        try {
+            Constructor<DBConnection> constructor = DBConnection.class.getDeclaredConstructor(String.class, int.class);
+            constructor.setAccessible(true);
+            constructor.newInstance("HACK", 1);
+        } catch (Exception e) {
+            System.out.println("Reflection blocked: " + e.getMessage());//Cannot reflectively create enum objects
+        }
+    }
+}
+```
+
+<details>
+<summary><b>▶️ How to compile and run this example</b></summary>
+
+```bash
+# run from the repository root
+mkdir -p out
+find "Creational Design Pattern/5. Singleton Design Pattern/6. Enum Singleton" -name "*.java" -print0 | xargs -0 javac -d out
 java -cp out Main
 ```
 

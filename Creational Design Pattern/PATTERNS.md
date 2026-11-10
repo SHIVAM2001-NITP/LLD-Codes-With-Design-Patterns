@@ -2,7 +2,7 @@
 
 Creational patterns abstract **how objects get created**. They hide construction logic, so the rest of the code depends on abstractions instead of concrete `new` calls, and the system stays flexible when the way objects are built changes.
 
-**5 patterns · 12 examples · 38 Java files**
+**5 patterns · 13 examples · 40 Java files**
 
 ## 📚 All patterns
 
@@ -12,7 +12,7 @@ Creational patterns abstract **how objects get created**. They hide construction
 | 2 | [🏗️ **Abstract Factory**](./2.%20Abstract%20Factory%20Design%20Pattern/README.md) | A factory of factories that builds families of related objects. | 1 | 10 |
 | 3 | [🧰 **Builder**](./3.%20Builder%20Design%20Pattern/README.md) | Construct complex objects step by step. | 3 | 8 |
 | 4 | [🧬 **Prototype**](./4.%20Prototype%20Design%20Pattern/README.md) | Create new objects by cloning an existing one. | 2 | 5 |
-| 5 | [1️⃣ **Singleton**](./5.%20Singleton%20Design%20Pattern/README.md) | Exactly one instance, one global access point. | 5 | 10 |
+| 5 | [1️⃣ **Singleton**](./5.%20Singleton%20Design%20Pattern/README.md) | Exactly one instance, one global access point. | 6 | 12 |
 
 ## 🧭 Which one do I need?
 
@@ -58,6 +58,7 @@ Creational patterns abstract **how objects get created**. They hide construction
 - 💡 Synchronized method
 - 💡 Double-checked locking (with `volatile`)
 - 💡 Bill Pugh singleton (static holder class)
+- 💡 Enum singleton
 
 ---
 
