@@ -2,7 +2,7 @@
 
 Structural patterns explain **how classes and objects are composed** into larger structures while keeping those structures flexible and efficient.
 
-**7 patterns · 13 examples · 70 Java files**
+**8 patterns · 16 examples · 91 Java files**
 
 ## 📚 All patterns
 
@@ -15,6 +15,7 @@ Structural patterns explain **how classes and objects are composed** into larger
 | 5 | [🏛️ **Facade**](./5.%20Fascade%20Design%20Pattern/README.md) | One simple entry point to a complex subsystem. | 1 | 8 |
 | 6 | [🪶 **Flyweight**](./6.%20Flyweight%20Design%20Pattern/README.md) | Share common state to support huge numbers of objects. | 3 | 13 |
 | 7 | [🛡️ **Proxy**](./7.%20Proxy%20Design%20Pattern/README.md) | A stand-in that controls access to another object. | 2 | 9 |
+| 8 | [🧳 **Visitor**](./8.%20Visitor%20Design%20Pattern/README.md) | Add new operations to a set of classes without modifying them. | 3 | 21 |
 
 ## 🧭 Which one do I need?
 
@@ -27,6 +28,7 @@ Structural patterns explain **how classes and objects are composed** into larger
 | Give a simple front door to a complicated subsystem | [Facade](./5.%20Fascade%20Design%20Pattern/README.md) |
 | Thousands of similar objects eat too much memory | [Flyweight](./6.%20Flyweight%20Design%20Pattern/README.md) |
 | Control access / add laziness, caching or logging in front of an object | [Proxy](./7.%20Proxy%20Design%20Pattern/README.md) |
+| Add new operations to a stable class hierarchy without editing its classes | [Visitor](./8.%20Visitor%20Design%20Pattern/README.md) |
 
 ## 📖 Pattern details
 
@@ -71,6 +73,14 @@ Structural patterns explain **how classes and objects are composed** into larger
 
 - 💡 Protection proxy - User vs ADMIN
 - 💡 Filtering proxy - Website
+
+### 8. 🧳 [Visitor](./8.%20Visitor%20Design%20Pattern/README.md)
+
+> Represent an operation to be performed on the elements of an object structure. Visitor lets you **define a new operation without changing the classes** of the elements it works on.
+
+- ❌ Problem - every operation lives inside every class
+- ✅ Solution 1 - Shopping cart visitors
+- ✅ Solution 2 - File system visitors
 
 ---
 
