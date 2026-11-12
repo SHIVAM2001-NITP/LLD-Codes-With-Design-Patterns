@@ -2,7 +2,7 @@
 
 # 🧳 Visitor Design Pattern
 
-![Category](https://img.shields.io/badge/Category-Structural-0969da?style=for-the-badge) ![Language](https://img.shields.io/badge/Java-ED8B00?style=for-the-badge&logo=openjdk&logoColor=white) ![Examples](https://img.shields.io/badge/Examples-3-blue?style=for-the-badge) ![Files](https://img.shields.io/badge/Java_files-21-lightgrey?style=for-the-badge)
+![Category](https://img.shields.io/badge/Category-Behavioural-8250df?style=for-the-badge) ![Language](https://img.shields.io/badge/Java-ED8B00?style=for-the-badge&logo=openjdk&logoColor=white) ![Examples](https://img.shields.io/badge/Examples-3-blue?style=for-the-badge) ![Files](https://img.shields.io/badge/Java_files-21-lightgrey?style=for-the-badge)
 
 *Add new operations to a set of classes without modifying them.*
 
@@ -247,7 +247,7 @@ public class Main {
 ```bash
 # run from the repository root
 mkdir -p out
-find "Structural Design Pattern/8. Visitor Design Pattern/Problem" -name "*.java" -print0 | xargs -0 javac -d out
+find "Behavioural Design Pattern/12. Visitor Design Pattern/Problem" -name "*.java" -print0 | xargs -0 javac -d out
 java -cp out Main
 ```
 
@@ -512,7 +512,7 @@ public class Main {
 ```bash
 # run from the repository root
 mkdir -p out
-find "Structural Design Pattern/8. Visitor Design Pattern/Solution1 Shopping Cart" -name "*.java" -print0 | xargs -0 javac -d out
+find "Behavioural Design Pattern/12. Visitor Design Pattern/Solution1 Shopping Cart" -name "*.java" -print0 | xargs -0 javac -d out
 java -cp out Main
 ```
 
@@ -733,7 +733,7 @@ public class Main {
 ```bash
 # run from the repository root
 mkdir -p out
-find "Structural Design Pattern/8. Visitor Design Pattern/Solution2 File System" -name "*.java" -print0 | xargs -0 javac -d out
+find "Behavioural Design Pattern/12. Visitor Design Pattern/Solution2 File System" -name "*.java" -print0 | xargs -0 javac -d out
 java -cp out Main
 ```
 
@@ -743,6 +743,6 @@ java -cp out Main
 
 <div align="center">
 
-[◀ Proxy](../7.%20Proxy%20Design%20Pattern/README.md) &nbsp;·&nbsp; [📚 All patterns](../PATTERNS.md)
+[◀ Iterator](../11.%20Iterator%20Design%20Pattern/README.md) &nbsp;·&nbsp; [📚 All patterns](../PATTERNS.md)
 
 </div>

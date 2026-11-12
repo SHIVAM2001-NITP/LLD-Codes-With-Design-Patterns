@@ -2,7 +2,7 @@
 
 Behavioural patterns are about **how objects communicate and share responsibility**. They make interaction between objects flexible and loosely coupled.
 
-**11 patterns · 24 examples · 125 Java files**
+**12 patterns · 27 examples · 146 Java files**
 
 ## 📚 All patterns
 
@@ -19,6 +19,7 @@ Behavioural patterns are about **how objects communicate and share responsibilit
 | 9 | [🧑‍⚖️ **Mediator**](./9.%20Mediator%20Design%20Pattern/README.md) | One central object coordinates how many objects interact. | 1 | 5 |
 | 10 | [🫥 **Null Object**](./10.%20Null%20Object%20Design%20Pattern/README.md) | Replace `null` with an object that does nothing. | 3 | 7 |
 | 11 | [🔁 **Iterator**](./11.%20Iterator%20Design%20Pattern/README.md) | Traverse a collection without exposing its internals. | 2 | 7 |
+| 12 | [🧳 **Visitor**](./12.%20Visitor%20Design%20Pattern/README.md) | Add new operations to a set of classes without modifying them. | 3 | 21 |
 
 ## 🧭 Which one do I need?
 
@@ -35,6 +36,7 @@ Behavioural patterns are about **how objects communicate and share responsibilit
 | Many objects talk to each other in a tangled way | [Mediator](./9.%20Mediator%20Design%20Pattern/README.md) |
 | Callers keep checking `if (x == null)` | [Null Object](./10.%20Null%20Object%20Design%20Pattern/README.md) |
 | Walk a collection without exposing how it is stored | [Iterator](./11.%20Iterator%20Design%20Pattern/README.md) |
+| Add new operations to a stable class hierarchy without editing its classes | [Visitor](./12.%20Visitor%20Design%20Pattern/README.md) |
 
 ## 📖 Pattern details
 
@@ -108,6 +110,14 @@ Behavioural patterns are about **how objects communicate and share responsibilit
 
 - 💡 Custom iterator - Book and Library
 - 💡 JDK example - `LinkedHashSet`
+
+### 12. 🧳 [Visitor](./12.%20Visitor%20Design%20Pattern/README.md)
+
+> Represent an operation to be performed on the elements of an object structure. Visitor lets you **define a new operation without changing the classes** of the elements it works on.
+
+- ❌ Problem - every operation lives inside every class
+- ✅ Solution 1 - Shopping cart visitors
+- ✅ Solution 2 - File system visitors
 
 ---
 

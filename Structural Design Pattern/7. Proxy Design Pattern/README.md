@@ -394,6 +394,6 @@ java -cp out com.proxypattern.Main
 
 <div align="center">
 
-[◀ Flyweight](../6.%20Flyweight%20Design%20Pattern/README.md) &nbsp;·&nbsp; [📚 All patterns](../PATTERNS.md) &nbsp;·&nbsp; [Visitor ▶](../8.%20Visitor%20Design%20Pattern/README.md)
+[◀ Flyweight](../6.%20Flyweight%20Design%20Pattern/README.md) &nbsp;·&nbsp; [📚 All patterns](../PATTERNS.md)
 
 </div>

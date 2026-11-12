@@ -336,6 +336,6 @@ java -cp out LinkedHashSetExample
 
 <div align="center">
 
-[◀ Null Object](../10.%20Null%20Object%20Design%20Pattern/README.md) &nbsp;·&nbsp; [📚 All patterns](../PATTERNS.md)
+[◀ Null Object](../10.%20Null%20Object%20Design%20Pattern/README.md) &nbsp;·&nbsp; [📚 All patterns](../PATTERNS.md) &nbsp;·&nbsp; [Visitor ▶](../12.%20Visitor%20Design%20Pattern/README.md)
 
 </div>
