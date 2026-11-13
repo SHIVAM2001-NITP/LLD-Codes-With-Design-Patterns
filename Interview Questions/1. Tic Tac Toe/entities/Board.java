@@ -1,3 +1,7 @@
+package entities;
+
+import enums.Symbol;
+
 // Knows the grid and nothing about the rules of winning
 public class Board {
     private final int size;

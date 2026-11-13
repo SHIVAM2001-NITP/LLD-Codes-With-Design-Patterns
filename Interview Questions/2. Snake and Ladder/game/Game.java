@@ -1,3 +1,10 @@
+package game;
+
+import dice.Dice;
+import entities.Board;
+import entities.BoardEntity;
+import entities.Player;
+
 import java.util.ArrayDeque;
 import java.util.Deque;
 import java.util.List;

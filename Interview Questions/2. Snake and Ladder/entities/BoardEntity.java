@@ -1,3 +1,5 @@
+package entities;
+
 // A snake or a ladder: if you land on `start`, you are moved to `end`
 public abstract class BoardEntity {
     protected final int start;

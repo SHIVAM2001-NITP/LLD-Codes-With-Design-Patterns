@@ -1,3 +1,7 @@
+package entities;
+
+import enums.Symbol;
+
 public class Player {
     private final String name;
     private final Symbol symbol;

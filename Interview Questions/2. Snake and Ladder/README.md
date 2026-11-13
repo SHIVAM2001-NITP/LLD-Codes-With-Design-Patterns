@@ -32,7 +32,7 @@
 
 | 📋 Requirements | 🛠️ Design approach |
 |---|---|
-| 1. Configurable board size, snakes and ladders<br>2. Two or more players take turns in a fixed order<br>3. A turn: roll, move, apply a snake or ladder<br>4. Finish needs an **exact** roll; an overshoot wastes the turn<br>5. Reject invalid boards (a snake that goes up, two entities on one cell, out of range)<br>6. The dice must be replaceable so games are testable | `Board` knows the size and the snakes and ladders, but nothing about players or dice. `Dice` is an interface with a `RandomDice` for play and a `FixedDice` for tests. `Game` keeps a queue of players, runs `playTurn()` and returns a `TurnResult`. Snakes and ladders share the `BoardEntity` base class because they behave the same: start to end. |
+| 1. Configurable board size, snakes and ladders<br>2. Two or more players take turns in a fixed order<br>3. A turn: roll, move, apply a snake or ladder<br>4. Finish needs an **exact** roll; an overshoot wastes the turn<br>5. Reject invalid boards (a snake that goes up, two entities on one cell, out of range)<br>6. The dice must be replaceable so games are testable | `Board` knows the size and the snakes and ladders, but nothing about players or dice. `Dice` is an interface with a `RandomDice` for play and a `FixedDice` for tests. `Game` keeps a queue of players, runs `playTurn()` and returns a `TurnResult`. Snakes and ladders share the `BoardEntity` base class because they behave the same: start to end. The code is split into folders (`entities`, `dice`, `game`) and `Main`, the client, sits outside them. |
 
 ## 🔷 Class diagram
 
@@ -89,19 +89,19 @@ classDiagram
 
 ## 👥 Classes & responsibilities
 
-| Class / interface | Responsibility | Kind |
+| Class / interface | Responsibility | Kind · folder |
 |---|---|---|
-| **`Game`** | Turn queue, rolls the dice, moves the player, applies snake or ladder, detects the winner | class |
-| **`Board`** | Size plus a map from cell to snake or ladder; validates every entity | class |
-| **`BoardEntity`** | A jump from `start` to `end` | abstract class |
-| **`Snake`** | Head above tail, moves a player down | class |
-| **`Ladder`** | Bottom below top, moves a player up | class |
-| **`Dice`** | Anything that can roll a number | interface |
-| **`RandomDice`** | Sum of `count` random dice (6 sided), the `Random` is injected so a seed reproduces a game | class |
-| **`FixedDice`** | Returns a scripted sequence: used for tests and the first demo | class |
-| **`Player`** | A name and the current position (0 = not started) | class |
-| **`TurnResult`** | What happened in a turn: roll, from, landing cell, jump, win | class |
-| **`Main`** | Scenario A: 20 cells with scripted dice. Scenario B: classic 100 cells with a seeded random dice. Also shows invalid boards | demo |
+| **`Game`** | Turn queue, rolls the dice, moves the player, applies snake or ladder, detects the winner | class · `game/` |
+| **`Board`** | Size plus a map from cell to snake or ladder; validates every entity | class · `entities/` |
+| **`BoardEntity`** | A jump from `start` to `end` | abstract class · `entities/` |
+| **`Snake`** | Head above tail, moves a player down | class · `entities/` |
+| **`Ladder`** | Bottom below top, moves a player up | class · `entities/` |
+| **`Dice`** | Anything that can roll a number | interface · `dice/` |
+| **`RandomDice`** | Sum of `count` random dice (6 sided), the `Random` is injected so a seed reproduces a game | class · `dice/` |
+| **`FixedDice`** | Returns a scripted sequence: used for tests and the first demo | class · `dice/` |
+| **`Player`** | A name and the current position (0 = not started) | class · `entities/` |
+| **`TurnResult`** | What happened in a turn: roll, from, landing cell, jump, win | class · `game/` |
+| **`Main`** | Scenario A: 20 cells with scripted dice. Scenario B: classic 100 cells with a seeded random dice. Also shows invalid boards | demo · client, outside the packages |
 
 ## 🧭 Design patterns & principles used
 
@@ -147,26 +147,43 @@ This folder has **1 example** (11 Java files). Interfaces and abstract classes c
 
 ```text
 2. Snake and Ladder/
-├── Board.java
-├── BoardEntity.java
-├── Dice.java
-├── FixedDice.java
-├── Game.java
-├── Ladder.java
-├── Main.java
-├── Player.java
-├── RandomDice.java
-├── Snake.java
-└── TurnResult.java
+├── dice/
+│   ├── Dice.java
+│   ├── FixedDice.java
+│   └── RandomDice.java
+├── entities/
+│   ├── Board.java
+│   ├── BoardEntity.java
+│   ├── Ladder.java
+│   ├── Player.java
+│   └── Snake.java
+├── game/
+│   ├── Game.java
+│   └── TurnResult.java
+└── Main.java
 ```
 
 </details>
 
-#### 📄 `BoardEntity.java`
+#### 📄 `dice/Dice.java`
 
-<sub>abstract class · 16 lines</sub>
+<sub>interface · 5 lines</sub>
 
 ```java
+package dice;
+
+public interface Dice {
+    int roll();
+}
+```
+
+#### 📄 `entities/BoardEntity.java`
+
+<sub>abstract class · 18 lines</sub>
+
+```java
+package entities;
+
 // A snake or a ladder: if you land on `start`, you are moved to `end`
 public abstract class BoardEntity {
     protected final int start;
@@ -185,21 +202,69 @@ public abstract class BoardEntity {
 }
 ```
 
-#### 📄 `Dice.java`
+#### 📄 `dice/FixedDice.java`
 
-<sub>interface · 3 lines</sub>
+<sub>class · 19 lines</sub>
 
 ```java
-public interface Dice {
-    int roll();
+package dice;
+
+// Returns a scripted sequence of values: perfect for tests and demos
+public class FixedDice implements Dice {
+    private final int[] values;
+    private int next = 0;
+
+    public FixedDice(int... values) {
+        this.values = values;
+    }
+
+    @Override
+    public int roll() {
+        if (next >= values.length) {
+            throw new IllegalStateException("FixedDice ran out of values");
+        }
+        return values[next++];
+    }
 }
 ```
 
-#### 📄 `Board.java`
+#### 📄 `dice/RandomDice.java`
 
-<sub>class · 36 lines</sub>
+<sub>class · 23 lines</sub>
 
 ```java
+package dice;
+
+import java.util.Random;
+
+// Sum of `count` dice, each 1..6. The Random is injected so games can be reproduced.
+public class RandomDice implements Dice {
+    private final int count;
+    private final Random random;
+
+    public RandomDice(int count, Random random) {
+        this.count = count;
+        this.random = random;
+    }
+
+    @Override
+    public int roll() {
+        int total = 0;
+        for (int i = 0; i < count; i++) {
+            total += random.nextInt(6) + 1;
+        }
+        return total;
+    }
+}
+```
+
+#### 📄 `entities/Board.java`
+
+<sub>class · 38 lines</sub>
+
+```java
+package entities;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -238,35 +303,89 @@ public class Board {
 }
 ```
 
-#### 📄 `FixedDice.java`
+#### 📄 `entities/Ladder.java`
 
 <sub>class · 17 lines</sub>
 
 ```java
-// Returns a scripted sequence of values: perfect for tests and demos
-public class FixedDice implements Dice {
-    private final int[] values;
-    private int next = 0;
+package entities;
 
-    public FixedDice(int... values) {
-        this.values = values;
+// Bottom (start) is lower than the top (end): it takes you up
+public class Ladder extends BoardEntity {
+
+    public Ladder(int bottom, int top) {
+        super(bottom, top);
+        if (bottom >= top) {
+            throw new IllegalArgumentException("Ladder top must be above its bottom: " + bottom + "->" + top);
+        }
     }
 
     @Override
-    public int roll() {
-        if (next >= values.length) {
-            throw new IllegalStateException("FixedDice ran out of values");
-        }
-        return values[next++];
+    public String describe() {
+        return "climbed a ladder";
     }
 }
 ```
 
-#### 📄 `Game.java`
+#### 📄 `entities/Player.java`
 
-<sub>class · 52 lines</sub>
+<sub>class · 16 lines</sub>
 
 ```java
+package entities;
+
+public class Player {
+    private final String name;
+    private int position = 0;     // 0 = not on the board yet
+
+    public Player(String name) {
+        this.name = name;
+    }
+
+    public String getName() { return name; }
+
+    public int getPosition() { return position; }
+
+    public void setPosition(int position) { this.position = position; }
+}
+```
+
+#### 📄 `entities/Snake.java`
+
+<sub>class · 17 lines</sub>
+
+```java
+package entities;
+
+// Head (start) is higher than the tail (end): it takes you down
+public class Snake extends BoardEntity {
+
+    public Snake(int head, int tail) {
+        super(head, tail);
+        if (head <= tail) {
+            throw new IllegalArgumentException("Snake head must be above its tail: " + head + "->" + tail);
+        }
+    }
+
+    @Override
+    public String describe() {
+        return "bitten by a snake";
+    }
+}
+```
+
+#### 📄 `game/Game.java`
+
+<sub>class · 59 lines</sub>
+
+```java
+package game;
+
+import dice.Dice;
+import entities.Board;
+import entities.BoardEntity;
+import entities.Player;
+
 import java.util.ArrayDeque;
 import java.util.Deque;
 import java.util.List;
@@ -321,104 +440,16 @@ public class Game {
 }
 ```
 
-#### 📄 `Ladder.java`
+#### 📄 `game/TurnResult.java`
 
-<sub>class · 15 lines</sub>
-
-```java
-// Bottom (start) is lower than the top (end): it takes you up
-public class Ladder extends BoardEntity {
-
-    public Ladder(int bottom, int top) {
-        super(bottom, top);
-        if (bottom >= top) {
-            throw new IllegalArgumentException("Ladder top must be above its bottom: " + bottom + "->" + top);
-        }
-    }
-
-    @Override
-    public String describe() {
-        return "climbed a ladder";
-    }
-}
-```
-
-#### 📄 `Player.java`
-
-<sub>class · 14 lines</sub>
+<sub>class · 48 lines</sub>
 
 ```java
-public class Player {
-    private final String name;
-    private int position = 0;     // 0 = not on the board yet
+package game;
 
-    public Player(String name) {
-        this.name = name;
-    }
+import entities.BoardEntity;
+import entities.Player;
 
-    public String getName() { return name; }
-
-    public int getPosition() { return position; }
-
-    public void setPosition(int position) { this.position = position; }
-}
-```
-
-#### 📄 `RandomDice.java`
-
-<sub>class · 21 lines</sub>
-
-```java
-import java.util.Random;
-
-// Sum of `count` dice, each 1..6. The Random is injected so games can be reproduced.
-public class RandomDice implements Dice {
-    private final int count;
-    private final Random random;
-
-    public RandomDice(int count, Random random) {
-        this.count = count;
-        this.random = random;
-    }
-
-    @Override
-    public int roll() {
-        int total = 0;
-        for (int i = 0; i < count; i++) {
-            total += random.nextInt(6) + 1;
-        }
-        return total;
-    }
-}
-```
-
-#### 📄 `Snake.java`
-
-<sub>class · 15 lines</sub>
-
-```java
-// Head (start) is higher than the tail (end): it takes you down
-public class Snake extends BoardEntity {
-
-    public Snake(int head, int tail) {
-        super(head, tail);
-        if (head <= tail) {
-            throw new IllegalArgumentException("Snake head must be above its tail: " + head + "->" + tail);
-        }
-    }
-
-    @Override
-    public String describe() {
-        return "bitten by a snake";
-    }
-}
-```
-
-#### 📄 `TurnResult.java`
-
-<sub>class · 43 lines</sub>
-
-```java
 // What happened in one turn, so the caller can print or assert on it
 public class TurnResult {
     private final Player player;
@@ -466,9 +497,18 @@ public class TurnResult {
 
 #### 📄 `Main.java`
 
-<sub>class · 66 lines</sub>
+<sub>class · 75 lines</sub>
 
 ```java
+import dice.FixedDice;
+import dice.RandomDice;
+import entities.Board;
+import entities.BoardEntity;
+import entities.Ladder;
+import entities.Player;
+import entities.Snake;
+import game.Game;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;

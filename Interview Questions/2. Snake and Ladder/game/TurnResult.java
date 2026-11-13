@@ -1,3 +1,8 @@
+package game;
+
+import entities.BoardEntity;
+import entities.Player;
+
 // What happened in one turn, so the caller can print or assert on it
 public class TurnResult {
     private final Player player;

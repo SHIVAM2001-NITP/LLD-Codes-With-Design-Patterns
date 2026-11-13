@@ -1,3 +1,5 @@
+package entities;
+
 // Immutable value object: who played, and where
 public class Move {
     private final Player player;

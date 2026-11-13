@@ -1,3 +1,9 @@
+package strategy;
+
+import entities.Board;
+import entities.Move;
+import enums.Symbol;
+
 // Wins when the whole column of the last move holds the player's symbol
 public class ColumnWinningStrategy implements WinningStrategy {
 

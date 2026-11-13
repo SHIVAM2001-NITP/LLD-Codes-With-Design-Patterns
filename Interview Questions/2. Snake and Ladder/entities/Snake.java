@@ -1,3 +1,5 @@
+package entities;
+
 // Head (start) is higher than the tail (end): it takes you down
 public class Snake extends BoardEntity {
 

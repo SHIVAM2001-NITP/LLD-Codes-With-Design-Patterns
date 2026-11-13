@@ -1,3 +1,9 @@
+package strategy;
+
+import entities.Board;
+import entities.Move;
+import enums.Symbol;
+
 // Wins when a whole diagonal holds the player's symbol (only checked if the move is on a diagonal)
 public class DiagonalWinningStrategy implements WinningStrategy {
 

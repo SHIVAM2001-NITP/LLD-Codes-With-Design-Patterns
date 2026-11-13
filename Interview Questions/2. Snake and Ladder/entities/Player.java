@@ -1,3 +1,5 @@
+package entities;
+
 public class Player {
     private final String name;
     private int position = 0;     // 0 = not on the board yet

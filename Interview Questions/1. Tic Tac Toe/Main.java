@@ -1,3 +1,9 @@
+import entities.Player;
+import enums.GameStatus;
+import enums.Symbol;
+import exceptions.InvalidMoveException;
+import game.Game;
+
 public class Main {
     public static void main(String[] args) {
 

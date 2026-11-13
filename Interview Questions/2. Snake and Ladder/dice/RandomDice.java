@@ -1,3 +1,5 @@
+package dice;
+
 import java.util.Random;
 
 // Sum of `count` dice, each 1..6. The Random is injected so games can be reproduced.

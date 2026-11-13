@@ -1,3 +1,5 @@
+package entities;
+
 // Bottom (start) is lower than the top (end): it takes you up
 public class Ladder extends BoardEntity {
 

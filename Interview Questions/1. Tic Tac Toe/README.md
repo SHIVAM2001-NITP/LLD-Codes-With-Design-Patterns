@@ -32,7 +32,7 @@
 
 | 📋 Requirements | 🛠️ Design approach |
 |---|---|
-| 1. Two players, symbols `X` and `O`, alternate turns<br>2. Board size is configurable (default 3 x 3)<br>3. Reject moves that are outside the board, on a taken cell, or after the game ended<br>4. Detect a win by row, column or diagonal, and detect a draw<br>5. Adding a new winning rule must not change existing code | `Game` owns the turn order and delegates to two helpers. `Board` only stores the grid. Each way of winning is a separate `WinningStrategy`, and only the **last move** is checked, so a win check costs `O(N)` rather than scanning the whole board. `Game.Builder` wires board size, players and rules. |
+| 1. Two players, symbols `X` and `O`, alternate turns<br>2. Board size is configurable (default 3 x 3)<br>3. Reject moves that are outside the board, on a taken cell, or after the game ended<br>4. Detect a win by row, column or diagonal, and detect a draw<br>5. Adding a new winning rule must not change existing code | `Game` owns the turn order and delegates to two helpers. `Board` only stores the grid. Each way of winning is a separate `WinningStrategy`, and only the **last move** is checked, so a win check costs `O(N)` rather than scanning the whole board. `Game.Builder` wires board size, players and rules. The code is split into folders (`entities`, `enums`, `exceptions`, `strategy`, `game`) and `Main`, the client, sits outside them. |
 
 ## 🔷 Class diagram
 
@@ -96,19 +96,19 @@ classDiagram
 
 ## 👥 Classes & responsibilities
 
-| Class / interface | Responsibility | Kind |
+| Class / interface | Responsibility | Kind · folder |
 |---|---|---|
-| **`Game`** | Runs turns, validates moves, asks the strategies if the move won, tracks status and winner | class (with inner `Builder`) |
-| **`Board`** | Stores the grid, tells if a cell is inside or empty, knows when it is full | class |
-| **`Player`** | A name and a symbol | class |
-| **`Move`** | Who played and where (immutable) | class |
-| **`WinningStrategy`** | One way of winning, checked against the last move | interface |
-| **`RowWinningStrategy`** | Whole row of the last move matches | class |
-| **`ColumnWinningStrategy`** | Whole column of the last move matches | class |
-| **`DiagonalWinningStrategy`** | Main or anti diagonal matches (only if the move lies on one) | class |
-| **`Symbol`, `GameStatus`** | Type safe marks and game state (`IN_PROGRESS`, `WON`, `DRAW`) | enums |
-| **`InvalidMoveException`** | Signals a rejected move; the turn does not change | runtime exception |
-| **`Main`** | Plays a row win, a draw, a 4 x 4 diagonal win and shows invalid moves | demo |
+| **`Game`** | Runs turns, validates moves, asks the strategies if the move won, tracks status and winner | class (with inner `Builder`) · `game/` |
+| **`Board`** | Stores the grid, tells if a cell is inside or empty, knows when it is full | class · `entities/` |
+| **`Player`** | A name and a symbol | class · `entities/` |
+| **`Move`** | Who played and where (immutable) | class · `entities/` |
+| **`WinningStrategy`** | One way of winning, checked against the last move | interface · `strategy/` |
+| **`RowWinningStrategy`** | Whole row of the last move matches | class · `strategy/` |
+| **`ColumnWinningStrategy`** | Whole column of the last move matches | class · `strategy/` |
+| **`DiagonalWinningStrategy`** | Main or anti diagonal matches (only if the move lies on one) | class · `strategy/` |
+| **`Symbol`, `GameStatus`** | Type safe marks and game state (`IN_PROGRESS`, `WON`, `DRAW`) | enums · `enums/` |
+| **`InvalidMoveException`** | Signals a rejected move; the turn does not change | runtime exception · `exceptions/` |
+| **`Main`** | Plays a row win, a draw, a 4 x 4 diagonal win and shows invalid moves | demo · client, outside the packages |
 
 ## 🧭 Design patterns & principles used
 
@@ -154,27 +154,34 @@ This folder has **1 example** (12 Java files). Interfaces and abstract classes c
 
 ```text
 1. Tic Tac Toe/
-├── Board.java
-├── ColumnWinningStrategy.java
-├── DiagonalWinningStrategy.java
-├── Game.java
-├── GameStatus.java
-├── InvalidMoveException.java
-├── Main.java
-├── Move.java
-├── Player.java
-├── RowWinningStrategy.java
-├── Symbol.java
-└── WinningStrategy.java
+├── entities/
+│   ├── Board.java
+│   ├── Move.java
+│   └── Player.java
+├── enums/
+│   ├── GameStatus.java
+│   └── Symbol.java
+├── exceptions/
+│   └── InvalidMoveException.java
+├── game/
+│   └── Game.java
+├── strategy/
+│   ├── ColumnWinningStrategy.java
+│   ├── DiagonalWinningStrategy.java
+│   ├── RowWinningStrategy.java
+│   └── WinningStrategy.java
+└── Main.java
 ```
 
 </details>
 
-#### 📄 `GameStatus.java`
+#### 📄 `enums/GameStatus.java`
 
-<sub>enum · 5 lines</sub>
+<sub>enum · 7 lines</sub>
 
 ```java
+package enums;
+
 public enum GameStatus {
     IN_PROGRESS,
     WON,
@@ -182,11 +189,13 @@ public enum GameStatus {
 }
 ```
 
-#### 📄 `Symbol.java`
+#### 📄 `enums/Symbol.java`
 
-<sub>enum · 5 lines</sub>
+<sub>enum · 7 lines</sub>
 
 ```java
+package enums;
+
 // The mark a player puts on the board
 public enum Symbol {
     X,
@@ -194,22 +203,31 @@ public enum Symbol {
 }
 ```
 
-#### 📄 `WinningStrategy.java`
+#### 📄 `strategy/WinningStrategy.java`
 
-<sub>interface · 4 lines</sub>
+<sub>interface · 9 lines</sub>
 
 ```java
+package strategy;
+
+import entities.Board;
+import entities.Move;
+
 // Strategy: one way of winning. New rules are new classes (Open/Closed).
 public interface WinningStrategy {
     boolean isWinningMove(Board board, Move move);
 }
 ```
 
-#### 📄 `Board.java`
+#### 📄 `entities/Board.java`
 
-<sub>class · 48 lines</sub>
+<sub>class · 52 lines</sub>
 
 ```java
+package entities;
+
+import enums.Symbol;
+
 // Knows the grid and nothing about the rules of winning
 public class Board {
     private final int size;
@@ -260,64 +278,94 @@ public class Board {
 }
 ```
 
-#### 📄 `ColumnWinningStrategy.java`
+#### 📄 `entities/Move.java`
 
-<sub>class · 14 lines</sub>
+<sub>class · 20 lines</sub>
 
 ```java
-// Wins when the whole column of the last move holds the player's symbol
-public class ColumnWinningStrategy implements WinningStrategy {
+package entities;
+
+// Immutable value object: who played, and where
+public class Move {
+    private final Player player;
+    private final int row;
+    private final int col;
+
+    public Move(Player player, int row, int col) {
+        this.player = player;
+        this.row = row;
+        this.col = col;
+    }
+
+    public Player getPlayer() { return player; }
+
+    public int getRow() { return row; }
+
+    public int getCol() { return col; }
+}
+```
+
+#### 📄 `entities/Player.java`
+
+<sub>class · 22 lines</sub>
+
+```java
+package entities;
+
+import enums.Symbol;
+
+public class Player {
+    private final String name;
+    private final Symbol symbol;
+
+    public Player(String name, Symbol symbol) {
+        this.name = name;
+        this.symbol = symbol;
+    }
+
+    public String getName() { return name; }
+
+    public Symbol getSymbol() { return symbol; }
 
     @Override
-    public boolean isWinningMove(Board board, Move move) {
-        Symbol symbol = move.getPlayer().getSymbol();
-        for (int row = 0; row < board.getSize(); row++) {
-            if (board.getSymbolAt(row, move.getCol()) != symbol) {
-                return false;
-            }
-        }
-        return true;
+    public String toString() {
+        return name + " (" + symbol + ")";
     }
 }
 ```
 
-#### 📄 `DiagonalWinningStrategy.java`
+#### 📄 `exceptions/InvalidMoveException.java`
 
-<sub>class · 25 lines</sub>
+<sub>class · 8 lines</sub>
 
 ```java
-// Wins when a whole diagonal holds the player's symbol (only checked if the move is on a diagonal)
-public class DiagonalWinningStrategy implements WinningStrategy {
+package exceptions;
 
-    @Override
-    public boolean isWinningMove(Board board, Move move) {
-        int n = board.getSize();
-        Symbol symbol = move.getPlayer().getSymbol();
-
-        if (move.getRow() == move.getCol() && allMatch(board, symbol, true)) {
-            return true;                                   // main diagonal
-        }
-        return move.getRow() + move.getCol() == n - 1 && allMatch(board, symbol, false);   // anti diagonal
-    }
-
-    private boolean allMatch(Board board, Symbol symbol, boolean mainDiagonal) {
-        int n = board.getSize();
-        for (int i = 0; i < n; i++) {
-            int col = mainDiagonal ? i : n - 1 - i;
-            if (board.getSymbolAt(i, col) != symbol) {
-                return false;
-            }
-        }
-        return true;
+// Thrown when a move is outside the board, on a taken cell, or made after the game ended
+public class InvalidMoveException extends RuntimeException {
+    public InvalidMoveException(String message) {
+        super(message);
     }
 }
 ```
 
-#### 📄 `Game.java`
+#### 📄 `game/Game.java`
 
-<sub>class · 94 lines</sub>
+<sub>class · 106 lines</sub>
 
 ```java
+package game;
+
+import entities.Board;
+import entities.Move;
+import entities.Player;
+import enums.GameStatus;
+import exceptions.InvalidMoveException;
+import strategy.ColumnWinningStrategy;
+import strategy.DiagonalWinningStrategy;
+import strategy.RowWinningStrategy;
+import strategy.WinningStrategy;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -414,74 +462,82 @@ public class Game {
 }
 ```
 
-#### 📄 `InvalidMoveException.java`
+#### 📄 `strategy/ColumnWinningStrategy.java`
 
-<sub>class · 6 lines</sub>
-
-```java
-// Thrown when a move is outside the board, on a taken cell, or made after the game ended
-public class InvalidMoveException extends RuntimeException {
-    public InvalidMoveException(String message) {
-        super(message);
-    }
-}
-```
-
-#### 📄 `Move.java`
-
-<sub>class · 18 lines</sub>
+<sub>class · 20 lines</sub>
 
 ```java
-// Immutable value object: who played, and where
-public class Move {
-    private final Player player;
-    private final int row;
-    private final int col;
+package strategy;
 
-    public Move(Player player, int row, int col) {
-        this.player = player;
-        this.row = row;
-        this.col = col;
-    }
+import entities.Board;
+import entities.Move;
+import enums.Symbol;
 
-    public Player getPlayer() { return player; }
-
-    public int getRow() { return row; }
-
-    public int getCol() { return col; }
-}
-```
-
-#### 📄 `Player.java`
-
-<sub>class · 18 lines</sub>
-
-```java
-public class Player {
-    private final String name;
-    private final Symbol symbol;
-
-    public Player(String name, Symbol symbol) {
-        this.name = name;
-        this.symbol = symbol;
-    }
-
-    public String getName() { return name; }
-
-    public Symbol getSymbol() { return symbol; }
+// Wins when the whole column of the last move holds the player's symbol
+public class ColumnWinningStrategy implements WinningStrategy {
 
     @Override
-    public String toString() {
-        return name + " (" + symbol + ")";
+    public boolean isWinningMove(Board board, Move move) {
+        Symbol symbol = move.getPlayer().getSymbol();
+        for (int row = 0; row < board.getSize(); row++) {
+            if (board.getSymbolAt(row, move.getCol()) != symbol) {
+                return false;
+            }
+        }
+        return true;
     }
 }
 ```
 
-#### 📄 `RowWinningStrategy.java`
+#### 📄 `strategy/DiagonalWinningStrategy.java`
 
-<sub>class · 14 lines</sub>
+<sub>class · 31 lines</sub>
 
 ```java
+package strategy;
+
+import entities.Board;
+import entities.Move;
+import enums.Symbol;
+
+// Wins when a whole diagonal holds the player's symbol (only checked if the move is on a diagonal)
+public class DiagonalWinningStrategy implements WinningStrategy {
+
+    @Override
+    public boolean isWinningMove(Board board, Move move) {
+        int n = board.getSize();
+        Symbol symbol = move.getPlayer().getSymbol();
+
+        if (move.getRow() == move.getCol() && allMatch(board, symbol, true)) {
+            return true;                                   // main diagonal
+        }
+        return move.getRow() + move.getCol() == n - 1 && allMatch(board, symbol, false);   // anti diagonal
+    }
+
+    private boolean allMatch(Board board, Symbol symbol, boolean mainDiagonal) {
+        int n = board.getSize();
+        for (int i = 0; i < n; i++) {
+            int col = mainDiagonal ? i : n - 1 - i;
+            if (board.getSymbolAt(i, col) != symbol) {
+                return false;
+            }
+        }
+        return true;
+    }
+}
+```
+
+#### 📄 `strategy/RowWinningStrategy.java`
+
+<sub>class · 20 lines</sub>
+
+```java
+package strategy;
+
+import entities.Board;
+import entities.Move;
+import enums.Symbol;
+
 // Wins when the whole row of the last move holds the player's symbol
 public class RowWinningStrategy implements WinningStrategy {
 
@@ -500,9 +556,15 @@ public class RowWinningStrategy implements WinningStrategy {
 
 #### 📄 `Main.java`
 
-<sub>class · 52 lines</sub>
+<sub>class · 58 lines</sub>
 
 ```java
+import entities.Player;
+import enums.GameStatus;
+import enums.Symbol;
+import exceptions.InvalidMoveException;
+import game.Game;
+
 public class Main {
     public static void main(String[] args) {
 

@@ -1,3 +1,12 @@
+import dice.FixedDice;
+import dice.RandomDice;
+import entities.Board;
+import entities.BoardEntity;
+import entities.Ladder;
+import entities.Player;
+import entities.Snake;
+import game.Game;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;

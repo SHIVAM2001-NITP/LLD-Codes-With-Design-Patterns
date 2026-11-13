@@ -1,3 +1,5 @@
+package dice;
+
 // Returns a scripted sequence of values: perfect for tests and demos
 public class FixedDice implements Dice {
     private final int[] values;
