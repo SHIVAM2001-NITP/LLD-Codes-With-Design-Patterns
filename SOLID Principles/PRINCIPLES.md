@@ -2,7 +2,7 @@
 
 SOLID is a set of five object-oriented design principles that keep code maintainable, testable and flexible. Every principle here is shown the same way: a **problem** version that violates it and a **solution** version that follows it, so you can compare them side by side. Run the problem versions to see the failure (they throw on purpose).
 
-**4 principles · 10 examples · 48 Java files**
+**5 principles · 12 examples · 64 Java files**
 
 ## 📚 All principles
 
@@ -12,6 +12,7 @@ SOLID is a set of five object-oriented design principles that keep code maintain
 | 2 | [🔓 **Open/Closed**](./2.%20Open%20Closed%20Principle/README.md) | Open for extension, closed for modification. | 2 | 11 |
 | 3 | [🔁 **Liskov Substitution**](./3.%20Liskov%20Substitution%20Principle/README.md) | Subclasses must be usable wherever their parent is expected. | 4 | 20 |
 | 4 | [✂️ **Interface Segregation**](./4.%20Interface%20Segregation%20Principle/README.md) | Many small, focused interfaces beat one fat interface. | 2 | 9 |
+| 5 | [🔄 **Dependency Inversion**](./5.%20Dependency%20Inversion%20Principle/README.md) | Depend on abstractions, not on concrete classes. | 2 | 16 |
 
 ## 🧭 Which principle do I need?
 
@@ -21,6 +22,7 @@ SOLID is a set of five object-oriented design principles that keep code maintain
 | Adding a new kind of behaviour forces you to edit a class that already works | [Open/Closed](./2.%20Open%20Closed%20Principle/README.md) |
 | A subclass throws an exception or returns `null` where its parent promised real behaviour | [Liskov Substitution](./3.%20Liskov%20Substitution%20Principle/README.md) |
 | A class is forced to implement interface methods it never uses | [Interface Segregation](./4.%20Interface%20Segregation%20Principle/README.md) |
+| A high-level class is hard-wired to concrete low-level classes | [Dependency Inversion](./5.%20Dependency%20Inversion%20Principle/README.md) |
 
 ## 📖 Principle details
 
@@ -53,6 +55,13 @@ SOLID is a set of five object-oriented design principles that keep code maintain
 
 - ❌ Problem - Waiter forced to implement chef and cleaning tasks
 - ✅ Solution - ChefTasks, WaiterTasks and MaintenanceTasks
+
+### 5. 🔄 [Dependency Inversion](./5.%20Dependency%20Inversion%20Principle/README.md)
+
+> **High-level components should not depend on low-level components directly; instead, they should depend on abstractions.** Classes should depend on interfaces rather than concrete classes. Additionally, abstractions should not depend on details; details should depend on abstractions.
+
+- ❌ Problem - MacBook is hard-wired to wired parts
+- ✅ Solution - MacBook depends on Keyboard and Mouse
 
 ---
 

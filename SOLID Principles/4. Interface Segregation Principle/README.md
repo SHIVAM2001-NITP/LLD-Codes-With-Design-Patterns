@@ -381,6 +381,6 @@ java -cp out SolutionDemo
 
 <div align="center">
 
-[◀ Liskov Substitution](../3.%20Liskov%20Substitution%20Principle/README.md) &nbsp;·&nbsp; [📚 All principles](../PRINCIPLES.md)
+[◀ Liskov Substitution](../3.%20Liskov%20Substitution%20Principle/README.md) &nbsp;·&nbsp; [📚 All principles](../PRINCIPLES.md) &nbsp;·&nbsp; [Dependency Inversion ▶](../5.%20Dependency%20Inversion%20Principle/README.md)
 
 </div>
