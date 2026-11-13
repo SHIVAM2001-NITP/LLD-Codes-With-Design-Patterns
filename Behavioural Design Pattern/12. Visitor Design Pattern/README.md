@@ -2,7 +2,7 @@
 
 # 🧳 Visitor Design Pattern
 
-![Category](https://img.shields.io/badge/Category-Behavioural-8250df?style=for-the-badge) ![Language](https://img.shields.io/badge/Java-ED8B00?style=for-the-badge&logo=openjdk&logoColor=white) ![Examples](https://img.shields.io/badge/Examples-3-blue?style=for-the-badge) ![Files](https://img.shields.io/badge/Java_files-21-lightgrey?style=for-the-badge)
+![Category](https://img.shields.io/badge/Category-Behavioural-8250df?style=for-the-badge) ![Language](https://img.shields.io/badge/Java-ED8B00?style=for-the-badge&logo=openjdk&logoColor=white) ![Examples](https://img.shields.io/badge/Examples-6-blue?style=for-the-badge) ![Files](https://img.shields.io/badge/Java_files-48-lightgrey?style=for-the-badge)
 
 *Add new operations to a set of classes without modifying them.*
 
@@ -23,6 +23,9 @@
   - [1. ❌ Problem - every operation lives inside every class](#ex1)
   - [2. ✅ Solution 1 - Shopping cart visitors](#ex2)
   - [3. ✅ Solution 2 - File system visitors](#ex3)
+  - [4. ✅ Solution 3 - Geometric shapes](#ex4)
+  - [5. ✅ Solution 4 - Expression tree (visitor that returns a value)](#ex5)
+  - [6. ✅ Solution 5 - Bank accounts](#ex6)
 
 ---
 
@@ -101,16 +104,23 @@ classDiagram
 
 ## 🌍 Real-world examples
 
-- `java.nio.file.FileVisitor` with `Files.walkFileTree()`
-- `javax.lang.model.element.ElementVisitor` (annotation processing)
-- Compilers: AST visitors (ANTLR, Eclipse JDT) for type-checking, code generation, linting
-- Tax / export / reporting modules over a fixed domain model
+- **JDK - `java.nio.file.FileVisitor` / `SimpleFileVisitor`:** `Files.walkFileTree()` calls `visitFile`, `preVisitDirectory`... so you can delete, copy or search a tree without writing the walk
+- **JDK - `javax.lang.model.element.ElementVisitor` and `TypeVisitor`:** annotation processors (Lombok-style tools, Dagger, MapStruct) walk classes, methods and fields of the compiled model
+- **Bytecode - ASM `ClassVisitor` / `MethodVisitor`:** frameworks such as Spring, Hibernate and Mockito read and rewrite class files by visiting each class, field and instruction
+- **Compilers, linters, formatters:** an AST (ANTLR `ParseTreeVisitor`, JavaParser `VoidVisitor`, Eclipse JDT `ASTVisitor`) is visited for type-checking, code generation, style checks and refactoring
+- **Spring - `BeanDefinitionVisitor`:** resolves `${placeholders}` in every property of every bean definition
+- **Document export:** one document tree (heading, paragraph, table, image) exported to HTML, PDF and Markdown, with one visitor per format
+- **E-commerce:** tax, shipping, discount and insurance rules over cart items of different kinds (this folder, Solution 1)
+- **Banking / insurance:** interest, fees and statements over savings, current and loan accounts or policies (this folder, Solution 5)
+- **Cloud cost and security reports:** one visitor walks VMs, disks, databases and buckets to total the cost or flag risky settings
+- **Games:** apply damage, healing or buffs differently to warriors, mages and buildings without bloating each unit class
+- **UI toolkits:** a visitor walks the widget tree to render it, run accessibility audits or collect form values
 
 ---
 
 ## 💻 Code
 
-This folder has **3 examples** (21 Java files). Interfaces and abstract classes come first, the class with `main` comes last.
+This folder has **6 examples** (48 Java files). Interfaces and abstract classes come first, the class with `main` comes last.
 
 <a id="ex1"></a>
 
@@ -734,6 +744,712 @@ public class Main {
 # run from the repository root
 mkdir -p out
 find "Behavioural Design Pattern/12. Visitor Design Pattern/Solution2 File System" -name "*.java" -print0 | xargs -0 javac -d out
+java -cp out Main
+```
+
+</details>
+
+---
+
+<a id="ex4"></a>
+
+### 4. ✅ Solution 3 - Geometric shapes
+
+> The classic textbook case: `Circle`, `Rectangle`, `Triangle` plus `AreaVisitor`, `PerimeterVisitor` and a later-added `XmlExportVisitor`. Shows that a visitor can keep a **running total** across a whole list.
+
+<details open>
+<summary><b>📁 Files in this example</b></summary>
+
+```text
+Solution3 Shapes/
+├── AreaVisitor.java
+├── Circle.java
+├── Main.java
+├── PerimeterVisitor.java
+├── Rectangle.java
+├── Shape.java
+├── ShapeVisitor.java
+├── Triangle.java
+└── XmlExportVisitor.java
+```
+
+</details>
+
+#### 📄 `Shape.java`
+
+<sub>interface · 3 lines</sub>
+
+```java
+public interface Shape {
+    void accept(ShapeVisitor visitor);
+}
+```
+
+#### 📄 `ShapeVisitor.java`
+
+<sub>interface · 5 lines</sub>
+
+```java
+public interface ShapeVisitor {
+    void visit(Circle circle);
+    void visit(Rectangle rectangle);
+    void visit(Triangle triangle);
+}
+```
+
+#### 📄 `AreaVisitor.java`
+
+<sub>class · 23 lines</sub>
+
+```java
+// Sums the area of every shape it visits
+public class AreaVisitor implements ShapeVisitor {
+    private double totalArea = 0;
+
+    @Override
+    public void visit(Circle circle) {
+        totalArea += Math.PI * circle.getRadius() * circle.getRadius();
+    }
+
+    @Override
+    public void visit(Rectangle rectangle) {
+        totalArea += rectangle.getWidth() * rectangle.getHeight();
+    }
+
+    @Override
+    public void visit(Triangle triangle) {
+        // Heron's formula
+        double s = (triangle.getA() + triangle.getB() + triangle.getC()) / 2;
+        totalArea += Math.sqrt(s * (s - triangle.getA()) * (s - triangle.getB()) * (s - triangle.getC()));
+    }
+
+    public double getTotalArea() { return totalArea; }
+}
+```
+
+#### 📄 `Circle.java`
+
+<sub>class · 10 lines</sub>
+
+```java
+public class Circle implements Shape {
+    private double radius;
+
+    public Circle(double radius) { this.radius = radius; }
+
+    public double getRadius() { return radius; }
+
+    @Override
+    public void accept(ShapeVisitor visitor) { visitor.visit(this); }
+}
+```
+
+#### 📄 `PerimeterVisitor.java`
+
+<sub>class · 21 lines</sub>
+
+```java
+// Sums the perimeter of every shape it visits
+public class PerimeterVisitor implements ShapeVisitor {
+    private double totalPerimeter = 0;
+
+    @Override
+    public void visit(Circle circle) {
+        totalPerimeter += 2 * Math.PI * circle.getRadius();
+    }
+
+    @Override
+    public void visit(Rectangle rectangle) {
+        totalPerimeter += 2 * (rectangle.getWidth() + rectangle.getHeight());
+    }
+
+    @Override
+    public void visit(Triangle triangle) {
+        totalPerimeter += triangle.getA() + triangle.getB() + triangle.getC();
+    }
+
+    public double getTotalPerimeter() { return totalPerimeter; }
+}
+```
+
+#### 📄 `Rectangle.java`
+
+<sub>class · 15 lines</sub>
+
+```java
+public class Rectangle implements Shape {
+    private double width;
+    private double height;
+
+    public Rectangle(double width, double height) {
+        this.width = width;
+        this.height = height;
+    }
+
+    public double getWidth() { return width; }
+    public double getHeight() { return height; }
+
+    @Override
+    public void accept(ShapeVisitor visitor) { visitor.visit(this); }
+}
+```
+
+#### 📄 `Triangle.java`
+
+<sub>class · 16 lines</sub>
+
+```java
+public class Triangle implements Shape {
+    private double a, b, c;   // side lengths
+
+    public Triangle(double a, double b, double c) {
+        this.a = a;
+        this.b = b;
+        this.c = c;
+    }
+
+    public double getA() { return a; }
+    public double getB() { return b; }
+    public double getC() { return c; }
+
+    @Override
+    public void accept(ShapeVisitor visitor) { visitor.visit(this); }
+}
+```
+
+#### 📄 `XmlExportVisitor.java`
+
+<sub>class · 23 lines</sub>
+
+```java
+// A brand new operation: no shape class had to change to support XML export
+public class XmlExportVisitor implements ShapeVisitor {
+    private StringBuilder xml = new StringBuilder("<shapes>\n");
+
+    @Override
+    public void visit(Circle circle) {
+        xml.append("  <circle radius=\"").append(circle.getRadius()).append("\"/>\n");
+    }
+
+    @Override
+    public void visit(Rectangle rectangle) {
+        xml.append("  <rectangle width=\"").append(rectangle.getWidth())
+           .append("\" height=\"").append(rectangle.getHeight()).append("\"/>\n");
+    }
+
+    @Override
+    public void visit(Triangle triangle) {
+        xml.append("  <triangle a=\"").append(triangle.getA()).append("\" b=\"").append(triangle.getB())
+           .append("\" c=\"").append(triangle.getC()).append("\"/>\n");
+    }
+
+    public String getXml() { return xml + "</shapes>"; }
+}
+```
+
+#### 📄 `Main.java`
+
+<sub>class · 23 lines</sub>
+
+```java
+import java.util.Arrays;
+import java.util.List;
+
+public class Main {
+    public static void main(String[] args) {
+
+        List<Shape> shapes = Arrays.asList(new Circle(2), new Rectangle(3, 4), new Triangle(3, 4, 5));
+
+        AreaVisitor area = new AreaVisitor();
+        PerimeterVisitor perimeter = new PerimeterVisitor();
+        XmlExportVisitor xml = new XmlExportVisitor();
+
+        for (Shape shape : shapes) {
+            shape.accept(area);
+            shape.accept(perimeter);
+            shape.accept(xml);
+        }
+
+        System.out.printf("Total area      : %.2f%n", area.getTotalArea());
+        System.out.printf("Total perimeter : %.2f%n", perimeter.getTotalPerimeter());
+        System.out.println(xml.getXml());
+    }
+}
+```
+
+<details>
+<summary><b>▶️ How to compile and run this example</b></summary>
+
+```bash
+# run from the repository root
+mkdir -p out
+find "Behavioural Design Pattern/12. Visitor Design Pattern/Solution3 Shapes" -name "*.java" -print0 | xargs -0 javac -d out
+java -cp out Main
+```
+
+</details>
+
+---
+
+<a id="ex5"></a>
+
+### 5. ✅ Solution 4 - Expression tree (visitor that returns a value)
+
+> `Num`, `Add`, `Mul` form a tree. A generic `ExprVisitor<R>` lets each operation choose its return type: `EvaluateVisitor` returns an `Integer`, `PrintVisitor` a `String`, `NodeCountVisitor` an `Integer`.
+
+> ### 🔍 Why a generic `ExprVisitor<R>`?
+>
+> In Solutions 1-3 the visitors keep their result in a **field** (`totalTax`) and the caller reads it afterwards. That is fine for a flat list, but for a **tree** the result of a node depends on the results of its children.
+>
+> Making the visitor generic (`<R> R accept(ExprVisitor<R> v)`) lets `visit` **return** the value, so the recursion reads naturally:
+> `add.getLeft().accept(this) + add.getRight().accept(this)`.
+> The same tree is evaluated (`Integer`), printed (`String`) and measured (`Integer`) by three different visitors, with no change to `Num`, `Add` or `Mul`. This is exactly how compilers and interpreters use the pattern.
+
+<details open>
+<summary><b>📁 Files in this example</b></summary>
+
+```text
+Solution4 Expression Tree/
+├── Add.java
+├── EvaluateVisitor.java
+├── Expr.java
+├── ExprVisitor.java
+├── Main.java
+├── Mul.java
+├── NodeCountVisitor.java
+├── Num.java
+└── PrintVisitor.java
+```
+
+</details>
+
+#### 📄 `Expr.java`
+
+<sub>interface · 3 lines</sub>
+
+```java
+public interface Expr {
+    <R> R accept(ExprVisitor<R> visitor);
+}
+```
+
+#### 📄 `ExprVisitor.java`
+
+<sub>interface · 6 lines</sub>
+
+```java
+// Generic visitor: every operation chooses its own return type R
+public interface ExprVisitor<R> {
+    R visitNum(Num num);
+    R visitAdd(Add add);
+    R visitMul(Mul mul);
+}
+```
+
+#### 📄 `Add.java`
+
+<sub>class · 14 lines</sub>
+
+```java
+public class Add implements Expr {
+    private Expr left, right;
+
+    public Add(Expr left, Expr right) {
+        this.left = left;
+        this.right = right;
+    }
+
+    public Expr getLeft() { return left; }
+    public Expr getRight() { return right; }
+
+    @Override
+    public <R> R accept(ExprVisitor<R> visitor) { return visitor.visitAdd(this); }
+}
+```
+
+#### 📄 `EvaluateVisitor.java`
+
+<sub>class · 16 lines</sub>
+
+```java
+// Operation 1: evaluate the tree, R = Integer
+public class EvaluateVisitor implements ExprVisitor<Integer> {
+
+    @Override
+    public Integer visitNum(Num num) { return num.getValue(); }
+
+    @Override
+    public Integer visitAdd(Add add) {
+        return add.getLeft().accept(this) + add.getRight().accept(this);
+    }
+
+    @Override
+    public Integer visitMul(Mul mul) {
+        return mul.getLeft().accept(this) * mul.getRight().accept(this);
+    }
+}
+```
+
+#### 📄 `Mul.java`
+
+<sub>class · 14 lines</sub>
+
+```java
+public class Mul implements Expr {
+    private Expr left, right;
+
+    public Mul(Expr left, Expr right) {
+        this.left = left;
+        this.right = right;
+    }
+
+    public Expr getLeft() { return left; }
+    public Expr getRight() { return right; }
+
+    @Override
+    public <R> R accept(ExprVisitor<R> visitor) { return visitor.visitMul(this); }
+}
+```
+
+#### 📄 `NodeCountVisitor.java`
+
+<sub>class · 16 lines</sub>
+
+```java
+// Operation 3: count the nodes, R = Integer
+public class NodeCountVisitor implements ExprVisitor<Integer> {
+
+    @Override
+    public Integer visitNum(Num num) { return 1; }
+
+    @Override
+    public Integer visitAdd(Add add) {
+        return 1 + add.getLeft().accept(this) + add.getRight().accept(this);
+    }
+
+    @Override
+    public Integer visitMul(Mul mul) {
+        return 1 + mul.getLeft().accept(this) + mul.getRight().accept(this);
+    }
+}
+```
+
+#### 📄 `Num.java`
+
+<sub>class · 10 lines</sub>
+
+```java
+public class Num implements Expr {
+    private int value;
+
+    public Num(int value) { this.value = value; }
+
+    public int getValue() { return value; }
+
+    @Override
+    public <R> R accept(ExprVisitor<R> visitor) { return visitor.visitNum(this); }
+}
+```
+
+#### 📄 `PrintVisitor.java`
+
+<sub>class · 16 lines</sub>
+
+```java
+// Operation 2: print the tree as text, R = String
+public class PrintVisitor implements ExprVisitor<String> {
+
+    @Override
+    public String visitNum(Num num) { return String.valueOf(num.getValue()); }
+
+    @Override
+    public String visitAdd(Add add) {
+        return "(" + add.getLeft().accept(this) + " + " + add.getRight().accept(this) + ")";
+    }
+
+    @Override
+    public String visitMul(Mul mul) {
+        return "(" + mul.getLeft().accept(this) + " * " + mul.getRight().accept(this) + ")";
+    }
+}
+```
+
+#### 📄 `Main.java`
+
+<sub>class · 14 lines</sub>
+
+```java
+public class Main {
+    public static void main(String[] args) {
+
+        // (2 + 3) * 4
+        Expr expression = new Mul(new Add(new Num(2), new Num(3)), new Num(4));
+
+        int result = expression.accept(new EvaluateVisitor());
+        String text = expression.accept(new PrintVisitor());
+        int nodes = expression.accept(new NodeCountVisitor());
+
+        System.out.println(text + " = " + result);   // ((2 + 3) * 4) = 20
+        System.out.println("Nodes: " + nodes);       // Nodes: 5
+    }
+}
+```
+
+<details>
+<summary><b>▶️ How to compile and run this example</b></summary>
+
+```bash
+# run from the repository root
+mkdir -p out
+find "Behavioural Design Pattern/12. Visitor Design Pattern/Solution4 Expression Tree" -name "*.java" -print0 | xargs -0 javac -d out
+java -cp out Main
+```
+
+</details>
+
+---
+
+<a id="ex6"></a>
+
+### 6. ✅ Solution 5 - Bank accounts
+
+> `SavingsAccount`, `CurrentAccount` and `LoanAccount` are visited by `InterestVisitor` (earned vs owed), `FeeVisitor` and `StatementVisitor`. Each account type has **different business rules**, all of them in one visitor per concern.
+
+<details open>
+<summary><b>📁 Files in this example</b></summary>
+
+```text
+Solution5 Bank Accounts/
+├── Account.java
+├── AccountVisitor.java
+├── CurrentAccount.java
+├── FeeVisitor.java
+├── InterestVisitor.java
+├── LoanAccount.java
+├── Main.java
+├── SavingsAccount.java
+└── StatementVisitor.java
+```
+
+</details>
+
+#### 📄 `Account.java`
+
+<sub>interface · 3 lines</sub>
+
+```java
+public interface Account {
+    void accept(AccountVisitor visitor);
+}
+```
+
+#### 📄 `AccountVisitor.java`
+
+<sub>interface · 5 lines</sub>
+
+```java
+public interface AccountVisitor {
+    void visit(SavingsAccount account);
+    void visit(CurrentAccount account);
+    void visit(LoanAccount account);
+}
+```
+
+#### 📄 `CurrentAccount.java`
+
+<sub>class · 18 lines</sub>
+
+```java
+public class CurrentAccount implements Account {
+    private String owner;
+    private double balance;
+    private double overdraftLimit;
+
+    public CurrentAccount(String owner, double balance, double overdraftLimit) {
+        this.owner = owner;
+        this.balance = balance;
+        this.overdraftLimit = overdraftLimit;
+    }
+
+    public String getOwner() { return owner; }
+    public double getBalance() { return balance; }
+    public double getOverdraftLimit() { return overdraftLimit; }
+
+    @Override
+    public void accept(AccountVisitor visitor) { visitor.visit(this); }
+}
+```
+
+#### 📄 `FeeVisitor.java`
+
+<sub>class · 15 lines</sub>
+
+```java
+// Monthly maintenance fees, one rule per account type
+public class FeeVisitor implements AccountVisitor {
+    private double totalFees = 0;
+
+    @Override
+    public void visit(SavingsAccount account) { totalFees += 0; }
+
+    @Override
+    public void visit(CurrentAccount account) { totalFees += 50; }
+
+    @Override
+    public void visit(LoanAccount account) { totalFees += 100; }
+
+    public double getTotalFees() { return totalFees; }
+}
+```
+
+#### 📄 `InterestVisitor.java`
+
+<sub>class · 23 lines</sub>
+
+```java
+// Yearly interest: customers EARN it on savings and OWE it on loans
+public class InterestVisitor implements AccountVisitor {
+    private double interestEarned = 0;
+    private double interestOwed = 0;
+
+    @Override
+    public void visit(SavingsAccount account) {
+        interestEarned += account.getBalance() * account.getInterestRatePercent() / 100;
+    }
+
+    @Override
+    public void visit(CurrentAccount account) {
+        // a current account pays no interest
+    }
+
+    @Override
+    public void visit(LoanAccount account) {
+        interestOwed += account.getOutstanding() * account.getInterestRatePercent() / 100;
+    }
+
+    public double getInterestEarned() { return interestEarned; }
+    public double getInterestOwed() { return interestOwed; }
+}
+```
+
+#### 📄 `LoanAccount.java`
+
+<sub>class · 18 lines</sub>
+
+```java
+public class LoanAccount implements Account {
+    private String owner;
+    private double outstanding;
+    private double interestRatePercent;
+
+    public LoanAccount(String owner, double outstanding, double interestRatePercent) {
+        this.owner = owner;
+        this.outstanding = outstanding;
+        this.interestRatePercent = interestRatePercent;
+    }
+
+    public String getOwner() { return owner; }
+    public double getOutstanding() { return outstanding; }
+    public double getInterestRatePercent() { return interestRatePercent; }
+
+    @Override
+    public void accept(AccountVisitor visitor) { visitor.visit(this); }
+}
+```
+
+#### 📄 `SavingsAccount.java`
+
+<sub>class · 18 lines</sub>
+
+```java
+public class SavingsAccount implements Account {
+    private String owner;
+    private double balance;
+    private double interestRatePercent;
+
+    public SavingsAccount(String owner, double balance, double interestRatePercent) {
+        this.owner = owner;
+        this.balance = balance;
+        this.interestRatePercent = interestRatePercent;
+    }
+
+    public String getOwner() { return owner; }
+    public double getBalance() { return balance; }
+    public double getInterestRatePercent() { return interestRatePercent; }
+
+    @Override
+    public void accept(AccountVisitor visitor) { visitor.visit(this); }
+}
+```
+
+#### 📄 `StatementVisitor.java`
+
+<sub>class · 21 lines</sub>
+
+```java
+// Prints a different statement line for each account type
+public class StatementVisitor implements AccountVisitor {
+
+    @Override
+    public void visit(SavingsAccount account) {
+        System.out.println("[SAVINGS] " + account.getOwner() + " balance=" + account.getBalance()
+                + " rate=" + account.getInterestRatePercent() + "%");
+    }
+
+    @Override
+    public void visit(CurrentAccount account) {
+        System.out.println("[CURRENT] " + account.getOwner() + " balance=" + account.getBalance()
+                + " overdraft limit=" + account.getOverdraftLimit());
+    }
+
+    @Override
+    public void visit(LoanAccount account) {
+        System.out.println("[LOAN]    " + account.getOwner() + " outstanding=" + account.getOutstanding()
+                + " rate=" + account.getInterestRatePercent() + "%");
+    }
+}
+```
+
+#### 📄 `Main.java`
+
+<sub>class · 26 lines</sub>
+
+```java
+import java.util.Arrays;
+import java.util.List;
+
+public class Main {
+    public static void main(String[] args) {
+
+        List<Account> accounts = Arrays.asList(
+                new SavingsAccount("Asha", 10000, 4),
+                new CurrentAccount("Ravi", 5000, 2000),
+                new LoanAccount("Meera", 20000, 10));
+
+        StatementVisitor statement = new StatementVisitor();
+        InterestVisitor interest = new InterestVisitor();
+        FeeVisitor fees = new FeeVisitor();
+
+        for (Account account : accounts) {
+            account.accept(statement);
+            account.accept(interest);
+            account.accept(fees);
+        }
+
+        System.out.println("Interest earned : " + interest.getInterestEarned());
+        System.out.println("Interest owed   : " + interest.getInterestOwed());
+        System.out.println("Monthly fees    : " + fees.getTotalFees());
+    }
+}
+```
+
+<details>
+<summary><b>▶️ How to compile and run this example</b></summary>
+
+```bash
+# run from the repository root
+mkdir -p out
+find "Behavioural Design Pattern/12. Visitor Design Pattern/Solution5 Bank Accounts" -name "*.java" -print0 | xargs -0 javac -d out
 java -cp out Main
 ```
 

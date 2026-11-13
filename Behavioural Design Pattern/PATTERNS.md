@@ -2,7 +2,7 @@
 
 Behavioural patterns are about **how objects communicate and share responsibility**. They make interaction between objects flexible and loosely coupled.
 
-**12 patterns · 27 examples · 146 Java files**
+**12 patterns · 30 examples · 173 Java files**
 
 ## 📚 All patterns
 
@@ -19,7 +19,7 @@ Behavioural patterns are about **how objects communicate and share responsibilit
 | 9 | [🧑‍⚖️ **Mediator**](./9.%20Mediator%20Design%20Pattern/README.md) | One central object coordinates how many objects interact. | 1 | 5 |
 | 10 | [🫥 **Null Object**](./10.%20Null%20Object%20Design%20Pattern/README.md) | Replace `null` with an object that does nothing. | 3 | 7 |
 | 11 | [🔁 **Iterator**](./11.%20Iterator%20Design%20Pattern/README.md) | Traverse a collection without exposing its internals. | 2 | 7 |
-| 12 | [🧳 **Visitor**](./12.%20Visitor%20Design%20Pattern/README.md) | Add new operations to a set of classes without modifying them. | 3 | 21 |
+| 12 | [🧳 **Visitor**](./12.%20Visitor%20Design%20Pattern/README.md) | Add new operations to a set of classes without modifying them. | 6 | 48 |
 
 ## 🧭 Which one do I need?
 
@@ -118,6 +118,9 @@ Behavioural patterns are about **how objects communicate and share responsibilit
 - ❌ Problem - every operation lives inside every class
 - ✅ Solution 1 - Shopping cart visitors
 - ✅ Solution 2 - File system visitors
+- ✅ Solution 3 - Geometric shapes
+- ✅ Solution 4 - Expression tree (visitor that returns a value)
+- ✅ Solution 5 - Bank accounts
 
 ---
 
