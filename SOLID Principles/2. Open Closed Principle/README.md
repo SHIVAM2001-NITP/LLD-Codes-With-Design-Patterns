@@ -426,6 +426,6 @@ java -cp out Demo
 
 <div align="center">
 
-[◀ Single Responsibility](../1.%20Single%20Responsibility%20Principle/README.md) &nbsp;·&nbsp; [📚 All principles](../PRINCIPLES.md)
+[◀ Single Responsibility](../1.%20Single%20Responsibility%20Principle/README.md) &nbsp;·&nbsp; [📚 All principles](../PRINCIPLES.md) &nbsp;·&nbsp; [Liskov Substitution ▶](../3.%20Liskov%20Substitution%20Principle/README.md)
 
 </div>
