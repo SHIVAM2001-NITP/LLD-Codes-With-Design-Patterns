@@ -2,7 +2,7 @@
 
 Classic low level design interview questions, each solved with clean, runnable Java. Every question has the problem statement, requirements, a class diagram, the responsibility of each class, the design patterns used, and the follow-up questions an interviewer is likely to ask. All code compiles and runs with a `main` demo.
 
-**4 questions · 4 examples · 51 Java files**
+**6 questions · 6 examples · 68 Java files**
 
 ## 📚 All questions
 
@@ -12,6 +12,8 @@ Classic low level design interview questions, each solved with clean, runnable J
 | 2 | [🐍 **Snake and Ladder**](./2.%20Snake%20and%20Ladder/README.md) | Players roll dice and race to the last cell; snakes pull them down and ladders lift them up. | 1 | 11 |
 | 3 | [🅿️ **Parking Lot**](./3.%20Parking%20Lot/README.md) | Vehicles get a ticket and a spot of the right size on entry, and pay by parked time on exit. | 1 | 19 |
 | 4 | [🛗 **Elevator**](./4.%20Elevator/README.md) | A controller dispatches hall calls to the best of several elevators using the LOOK algorithm. | 1 | 9 |
+| 5 | [🚗 **Car Rental**](./5.%20Car%20Rental/README.md) | Customers search a fleet by type and dates, book, and later cancel or return. | 1 | 13 |
+| 6 | [🧮 **HashMap**](./6.%20HashMap/README.md) | A key/value store built from an array of buckets, each a chain of entries, with automatic resizing. | 1 | 4 |
 
 ## 📖 Question details
 
@@ -30,6 +32,14 @@ Classic low level design interview questions, each solved with clean, runnable J
 ### 4. 🛗 [Elevator](./4.%20Elevator/README.md)
 
 > Design an **elevator system** for a building with several floors and several elevators. People press a hall button (UP/DOWN) outside, and a destination button inside the car. The system must pick a good elevator for each hall call and move every car efficiently without starving any request.
+
+### 5. 🚗 [Car Rental](./5.%20Car%20Rental/README.md)
+
+> Design a **car rental system**. A customer searches for a vehicle type over a date range, books an available vehicle, and later returns it or cancels. The price depends on the vehicle type, the number of days and, optionally, weekend discounts.
+
+### 6. 🧮 [HashMap](./6.%20HashMap/README.md)
+
+> Implement a **HashMap** from scratch: `put`, `get`, `remove`, `containsKey`, resizing, and the collision strategy, without using `java.util.HashMap`. Operations should run in **amortised O(1)**.
 
 ---
 

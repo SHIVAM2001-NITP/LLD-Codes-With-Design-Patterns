@@ -568,6 +568,6 @@ java -cp out Main
 
 <div align="center">
 
-[◀ Parking Lot](../3.%20Parking%20Lot/README.md) &nbsp;·&nbsp; [📚 All questions](../QUESTIONS.md)
+[◀ Parking Lot](../3.%20Parking%20Lot/README.md) &nbsp;·&nbsp; [📚 All questions](../QUESTIONS.md) &nbsp;·&nbsp; [Car Rental ▶](../5.%20Car%20Rental/README.md)
 
 </div>
