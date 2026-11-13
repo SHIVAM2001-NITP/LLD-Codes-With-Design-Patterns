@@ -74,4 +74,4 @@ Structural patterns explain **how classes and objects are composed** into larger
 
 ---
 
-Other categories: [Creational Design Patterns](../Creational%20Design%20Pattern/PATTERNS.md) · [Behavioural Design Patterns](../Behavioural%20Design%20Pattern/PATTERNS.md) · [SOLID Principles](../SOLID%20Principles/PRINCIPLES.md)
+Other categories: [Creational Design Patterns](../Creational%20Design%20Pattern/PATTERNS.md) · [Behavioural Design Patterns](../Behavioural%20Design%20Pattern/PATTERNS.md) · [SOLID Principles](../SOLID%20Principles/PRINCIPLES.md) · [Interview Questions](../Interview%20Questions/QUESTIONS.md)
