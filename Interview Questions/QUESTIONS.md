@@ -2,7 +2,7 @@
 
 Classic low level design interview questions, each solved with clean, runnable Java. Every question has the problem statement, requirements, a class diagram, the responsibility of each class, the design patterns used, and the follow-up questions an interviewer is likely to ask. All code compiles and runs with a `main` demo.
 
-**3 questions · 3 examples · 42 Java files**
+**4 questions · 4 examples · 51 Java files**
 
 ## 📚 All questions
 
@@ -11,6 +11,7 @@ Classic low level design interview questions, each solved with clean, runnable J
 | 1 | [⭕ **Tic Tac Toe**](./1.%20Tic%20Tac%20Toe/README.md) | Two players take turns on an NxN grid; the first to fill a whole row, column or diagonal wins. | 1 | 12 |
 | 2 | [🐍 **Snake and Ladder**](./2.%20Snake%20and%20Ladder/README.md) | Players roll dice and race to the last cell; snakes pull them down and ladders lift them up. | 1 | 11 |
 | 3 | [🅿️ **Parking Lot**](./3.%20Parking%20Lot/README.md) | Vehicles get a ticket and a spot of the right size on entry, and pay by parked time on exit. | 1 | 19 |
+| 4 | [🛗 **Elevator**](./4.%20Elevator/README.md) | A controller dispatches hall calls to the best of several elevators using the LOOK algorithm. | 1 | 9 |
 
 ## 📖 Question details
 
@@ -25,6 +26,10 @@ Classic low level design interview questions, each solved with clean, runnable J
 ### 3. 🅿️ [Parking Lot](./3.%20Parking%20Lot/README.md)
 
 > Design a **multi-floor Parking Lot**. A vehicle (bike, car or truck) enters, gets a free spot of the matching size and a ticket. On exit it hands back the ticket, the fee is calculated from the time parked, and the spot becomes free again.
+
+### 4. 🛗 [Elevator](./4.%20Elevator/README.md)
+
+> Design an **elevator system** for a building with several floors and several elevators. People press a hall button (UP/DOWN) outside, and a destination button inside the car. The system must pick a good elevator for each hall call and move every car efficiently without starving any request.
 
 ---
 

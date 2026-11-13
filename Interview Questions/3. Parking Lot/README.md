@@ -871,6 +871,6 @@ java -cp out Main
 
 <div align="center">
 
-[◀ Snake and Ladder](../2.%20Snake%20and%20Ladder/README.md) &nbsp;·&nbsp; [📚 All questions](../QUESTIONS.md)
+[◀ Snake and Ladder](../2.%20Snake%20and%20Ladder/README.md) &nbsp;·&nbsp; [📚 All questions](../QUESTIONS.md) &nbsp;·&nbsp; [Elevator ▶](../4.%20Elevator/README.md)
 
 </div>
