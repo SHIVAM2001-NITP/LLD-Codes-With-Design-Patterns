@@ -593,6 +593,6 @@ java -cp out Main
 
 <div align="center">
 
-[◀ Tic Tac Toe](../1.%20Tic%20Tac%20Toe/README.md) &nbsp;·&nbsp; [📚 All questions](../QUESTIONS.md)
+[◀ Tic Tac Toe](../1.%20Tic%20Tac%20Toe/README.md) &nbsp;·&nbsp; [📚 All questions](../QUESTIONS.md) &nbsp;·&nbsp; [Parking Lot ▶](../3.%20Parking%20Lot/README.md)
 
 </div>
