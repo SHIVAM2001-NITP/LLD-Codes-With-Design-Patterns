@@ -2,7 +2,7 @@
 
 Classic low level design interview questions, each solved with clean, runnable Java. Every question has the problem statement, requirements, a class diagram, the responsibility of each class, the design patterns used, and the follow-up questions an interviewer is likely to ask. All code compiles and runs with a `main` demo.
 
-**6 questions · 6 examples · 68 Java files**
+**8 questions · 8 examples · 98 Java files**
 
 ## 📚 All questions
 
@@ -14,6 +14,8 @@ Classic low level design interview questions, each solved with clean, runnable J
 | 4 | [🛗 **Elevator**](./4.%20Elevator/README.md) | A controller dispatches hall calls to the best of several elevators using the LOOK algorithm. | 1 | 9 |
 | 5 | [🚗 **Car Rental**](./5.%20Car%20Rental/README.md) | Customers search a fleet by type and dates, book, and later cancel or return. | 1 | 13 |
 | 6 | [🧮 **HashMap**](./6.%20HashMap/README.md) | A key/value store built from an array of buckets, each a chain of entries, with automatic resizing. | 1 | 4 |
+| 7 | [🥤 **Vending Machine**](./7.%20Vending%20Machine/README.md) | Select a product, insert coins, and the machine dispenses it (and any change) by a State machine. | 1 | 13 |
+| 8 | [🏧 **ATM**](./8.%20ATM/README.md) | Insert a card, enter the PIN, withdraw cash; a State machine drives the session and a greedy dispenser picks the notes. | 1 | 17 |
 
 ## 📖 Question details
 
@@ -40,6 +42,14 @@ Classic low level design interview questions, each solved with clean, runnable J
 ### 6. 🧮 [HashMap](./6.%20HashMap/README.md)
 
 > Implement a **HashMap** from scratch: `put`, `get`, `remove`, `containsKey`, resizing, and the collision strategy, without using `java.util.HashMap`. Operations should run in **amortised O(1)**.
+
+### 7. 🥤 [Vending Machine](./7.%20Vending%20Machine/README.md)
+
+> Design a **vending machine**. A customer selects a product, inserts coins until the price is covered, and the machine dispenses the product plus any change. The machine must reject operations that make no sense for where it currently is in the flow (for example inserting a coin before selecting anything).
+
+### 8. 🏧 [ATM](./8.%20ATM/README.md)
+
+> Design an **ATM**. A customer inserts a card, enters a PIN, and withdraws cash. The machine must dispense the exact amount using the notes it has, verify the PIN against the bank, block a card after repeated wrong PINs, and reject anything out of order.
 
 ---
 

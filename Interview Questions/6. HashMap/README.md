@@ -379,6 +379,6 @@ java -cp out Main
 
 <div align="center">
 
-[◀ Car Rental](../5.%20Car%20Rental/README.md) &nbsp;·&nbsp; [📚 All questions](../QUESTIONS.md)
+[◀ Car Rental](../5.%20Car%20Rental/README.md) &nbsp;·&nbsp; [📚 All questions](../QUESTIONS.md) &nbsp;·&nbsp; [Vending Machine ▶](../7.%20Vending%20Machine/README.md)
 
 </div>
