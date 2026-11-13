@@ -709,6 +709,6 @@ java -cp out Main
 
 <div align="center">
 
-[◀ Vending Machine](../7.%20Vending%20Machine/README.md) &nbsp;·&nbsp; [📚 All questions](../QUESTIONS.md)
+[◀ Vending Machine](../7.%20Vending%20Machine/README.md) &nbsp;·&nbsp; [📚 All questions](../QUESTIONS.md) &nbsp;·&nbsp; [Chess ▶](../9.%20Chess/README.md)
 
 </div>

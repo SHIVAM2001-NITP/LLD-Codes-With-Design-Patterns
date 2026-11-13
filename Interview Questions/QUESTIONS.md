@@ -2,7 +2,7 @@
 
 Classic low level design interview questions, each solved with clean, runnable Java. Every question has the problem statement, requirements, a class diagram, the responsibility of each class, the design patterns used, and the follow-up questions an interviewer is likely to ask. All code compiles and runs with a `main` demo.
 
-**8 questions · 8 examples · 98 Java files**
+**10 questions · 10 examples · 125 Java files**
 
 ## 📚 All questions
 
@@ -16,6 +16,8 @@ Classic low level design interview questions, each solved with clean, runnable J
 | 6 | [🧮 **HashMap**](./6.%20HashMap/README.md) | A key/value store built from an array of buckets, each a chain of entries, with automatic resizing. | 1 | 4 |
 | 7 | [🥤 **Vending Machine**](./7.%20Vending%20Machine/README.md) | Select a product, insert coins, and the machine dispenses it (and any change) by a State machine. | 1 | 13 |
 | 8 | [🏧 **ATM**](./8.%20ATM/README.md) | Insert a card, enter the PIN, withdraw cash; a State machine drives the session and a greedy dispenser picks the notes. | 1 | 17 |
+| 9 | [♟️ **Chess**](./9.%20Chess/README.md) | Two players move pieces by their own rules; a move that leaves your own king in check is illegal. | 1 | 15 |
+| 10 | [💸 **Splitwise**](./10.%20Splitwise/README.md) | Record an expense split equally, exactly or by percentage, and track who owes whom. | 1 | 12 |
 
 ## 📖 Question details
 
@@ -50,6 +52,14 @@ Classic low level design interview questions, each solved with clean, runnable J
 ### 8. 🏧 [ATM](./8.%20ATM/README.md)
 
 > Design an **ATM**. A customer inserts a card, enters a PIN, and withdraws cash. The machine must dispense the exact amount using the notes it has, verify the PIN against the bank, block a card after repeated wrong PINs, and reject anything out of order.
+
+### 9. ♟️ [Chess](./9.%20Chess/README.md)
+
+> Design a **Chess** engine: an 8x8 board, the six piece types with their movement rules, whose turn it is, and the game-ending states (check, checkmate, stalemate). Full chess (castling, en passant, promotion) is out of scope; the follow-up questions cover how each would be added.
+
+### 10. 💸 [Splitwise](./10.%20Splitwise/README.md)
+
+> Design a **Splitwise-style expense sharing app**. One user pays for a shared expense; it is split among participants equally, by exact amounts, or by percentage. The app tracks a running balance between every pair of users and lets debts be settled directly.
 
 ---
 
