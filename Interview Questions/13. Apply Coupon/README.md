@@ -772,6 +772,6 @@ java -cp out Main
 
 <div align="center">
 
-[◀ Inventory Management](../12.%20Inventory/README.md) &nbsp;·&nbsp; [📚 All questions](../QUESTIONS.md)
+[◀ Inventory Management](../12.%20Inventory/README.md) &nbsp;·&nbsp; [📚 All questions](../QUESTIONS.md) &nbsp;·&nbsp; [Payment Gateway ▶](../14.%20Payment%20Gateway/README.md)
 
 </div>

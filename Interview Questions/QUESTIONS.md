@@ -2,7 +2,7 @@
 
 Classic low level design interview questions, each solved with clean, runnable Java. Every question has the problem statement, requirements, a class diagram, the responsibility of each class, the design patterns used, and the follow-up questions an interviewer is likely to ask. All code compiles and runs with a `main` demo.
 
-**13 questions · 13 examples · 165 Java files**
+**14 questions · 14 examples · 181 Java files**
 
 ## 📚 All questions
 
@@ -21,6 +21,7 @@ Classic low level design interview questions, each solved with clean, runnable J
 | 11 | [🏏 **Cricbuzz**](./11.%20Cricbuzz/README.md) | Each ball updates the match state; any number of subscribers (scorecard, commentary) hear about it live. | 1 | 13 |
 | 12 | [📦 **Inventory Management**](./12.%20Inventory/README.md) | Receive, reserve, ship, transfer and adjust stock per warehouse, with a full audit trail and automatic reorder alerts. | 1 | 12 |
 | 13 | [🏷️ **Apply Coupon**](./13.%20Apply%20Coupon/README.md) | Validate a coupon against a cart (expiry, usage, applicability) and apply the right kind of discount. | 1 | 15 |
+| 14 | [💳 **Payment Gateway**](./14.%20Payment%20Gateway/README.md) | Route a charge through a fallback chain of providers, never double-charge the same request, and support refunds. | 1 | 16 |
 
 ## 📖 Question details
 
@@ -75,6 +76,10 @@ Classic low level design interview questions, each solved with clean, runnable J
 ### 13. 🏷️ [Apply Coupon](./13.%20Apply%20Coupon/README.md)
 
 > Design a **coupon / discount system** for an e-commerce cart. Different coupons give a flat amount off, a capped percentage off, a percentage off one category, or a 'buy one get one free' deal on a category. Every coupon also has an expiry date and a usage limit, checked the same way regardless of how the discount itself is computed.
+
+### 14. 💳 [Payment Gateway](./14.%20Payment%20Gateway/README.md)
+
+> Design a **payment gateway**: the single entry point a merchant calls to charge a customer. It must route the request to a real payment processor for the chosen method, fall back to another processor if the first declines, never charge the same logical request twice, and support refunding a successful payment.
 
 ---
 
