@@ -2,7 +2,7 @@
 
 Classic low level design interview questions, each solved with clean, runnable Java. Every question has the problem statement, requirements, a class diagram, the responsibility of each class, the design patterns used, and the follow-up questions an interviewer is likely to ask. All code compiles and runs with a `main` demo.
 
-**11 questions · 11 examples · 140 Java files**
+**13 questions · 13 examples · 165 Java files**
 
 ## 📚 All questions
 
@@ -18,6 +18,8 @@ Classic low level design interview questions, each solved with clean, runnable J
 | 8 | [🏧 **ATM**](./8.%20ATM/README.md) | Insert a card, enter the PIN, withdraw cash; a State machine drives the session and a greedy dispenser picks the notes. | 1 | 17 |
 | 9 | [♟️ **Chess**](./9.%20Chess/README.md) | Two players move pieces by their own rules; a move that leaves your own king in check is illegal. | 1 | 15 |
 | 10 | [💸 **Splitwise**](./10.%20Splitwise/README.md) | Record an expense split equally, exactly or by percentage, and track who owes whom. | 1 | 12 |
+| 11 | [🏏 **Cricbuzz**](./11.%20Cricbuzz/README.md) | Each ball updates the match state; any number of subscribers (scorecard, commentary) hear about it live. | 1 | 13 |
+| 12 | [📦 **Inventory Management**](./12.%20Inventory/README.md) | Receive, reserve, ship, transfer and adjust stock per warehouse, with a full audit trail and automatic reorder alerts. | 1 | 12 |
 | 13 | [🏷️ **Apply Coupon**](./13.%20Apply%20Coupon/README.md) | Validate a coupon against a cart (expiry, usage, applicability) and apply the right kind of discount. | 1 | 15 |
 
 ## 📖 Question details
@@ -61,6 +63,14 @@ Classic low level design interview questions, each solved with clean, runnable J
 ### 10. 💸 [Splitwise](./10.%20Splitwise/README.md)
 
 > Design a **Splitwise-style expense sharing app**. One user pays for a shared expense; it is split among participants equally, by exact amounts, or by percentage. The app tracks a running balance between every pair of users and lets debts be settled directly.
+
+### 11. 🏏 [Cricbuzz](./11.%20Cricbuzz/README.md)
+
+> Design a **live cricket scoring system**. Every ball bowled updates the score, the over, and (eventually) the innings and the match; any number of independent consumers (a scorecard widget, ball-by-ball commentary, push notifications) need to hear about these events live, without the match itself knowing anything about them.
+
+### 12. 📦 [Inventory Management](./12.%20Inventory/README.md)
+
+> Design an **inventory management system** for a multi-warehouse retailer. Stock is received, reserved for an order, shipped, transferred between warehouses, or manually adjusted (damage, stock take). Every movement must be auditable, and falling below a reorder threshold should trigger a reorder automatically.
 
 ### 13. 🏷️ [Apply Coupon](./13.%20Apply%20Coupon/README.md)
 

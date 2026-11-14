@@ -772,6 +772,6 @@ java -cp out Main
 
 <div align="center">
 
-[◀ Splitwise](../10.%20Splitwise/README.md) &nbsp;·&nbsp; [📚 All questions](../QUESTIONS.md)
+[◀ Inventory Management](../12.%20Inventory/README.md) &nbsp;·&nbsp; [📚 All questions](../QUESTIONS.md)
 
 </div>
