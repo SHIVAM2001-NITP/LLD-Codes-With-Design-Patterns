@@ -165,17 +165,7 @@ This folder has **1 example** (11 Java files). Interfaces and abstract classes c
 
 </details>
 
-#### 📄 `dice/Dice.java`
-
-<sub>interface · 5 lines</sub>
-
-```java
-package dice;
-
-public interface Dice {
-    int roll();
-}
-```
+### 📁 `entities/`
 
 #### 📄 `entities/BoardEntity.java`
 
@@ -199,62 +189,6 @@ public abstract class BoardEntity {
     public int getEnd() { return end; }
 
     public abstract String describe();
-}
-```
-
-#### 📄 `dice/FixedDice.java`
-
-<sub>class · 19 lines</sub>
-
-```java
-package dice;
-
-// Returns a scripted sequence of values: perfect for tests and demos
-public class FixedDice implements Dice {
-    private final int[] values;
-    private int next = 0;
-
-    public FixedDice(int... values) {
-        this.values = values;
-    }
-
-    @Override
-    public int roll() {
-        if (next >= values.length) {
-            throw new IllegalStateException("FixedDice ran out of values");
-        }
-        return values[next++];
-    }
-}
-```
-
-#### 📄 `dice/RandomDice.java`
-
-<sub>class · 23 lines</sub>
-
-```java
-package dice;
-
-import java.util.Random;
-
-// Sum of `count` dice, each 1..6. The Random is injected so games can be reproduced.
-public class RandomDice implements Dice {
-    private final int count;
-    private final Random random;
-
-    public RandomDice(int count, Random random) {
-        this.count = count;
-        this.random = random;
-    }
-
-    @Override
-    public int roll() {
-        int total = 0;
-        for (int i = 0; i < count; i++) {
-            total += random.nextInt(6) + 1;
-        }
-        return total;
-    }
 }
 ```
 
@@ -373,6 +307,78 @@ public class Snake extends BoardEntity {
     }
 }
 ```
+
+### 📁 `dice/`
+
+#### 📄 `dice/Dice.java`
+
+<sub>interface · 5 lines</sub>
+
+```java
+package dice;
+
+public interface Dice {
+    int roll();
+}
+```
+
+#### 📄 `dice/FixedDice.java`
+
+<sub>class · 19 lines</sub>
+
+```java
+package dice;
+
+// Returns a scripted sequence of values: perfect for tests and demos
+public class FixedDice implements Dice {
+    private final int[] values;
+    private int next = 0;
+
+    public FixedDice(int... values) {
+        this.values = values;
+    }
+
+    @Override
+    public int roll() {
+        if (next >= values.length) {
+            throw new IllegalStateException("FixedDice ran out of values");
+        }
+        return values[next++];
+    }
+}
+```
+
+#### 📄 `dice/RandomDice.java`
+
+<sub>class · 23 lines</sub>
+
+```java
+package dice;
+
+import java.util.Random;
+
+// Sum of `count` dice, each 1..6. The Random is injected so games can be reproduced.
+public class RandomDice implements Dice {
+    private final int count;
+    private final Random random;
+
+    public RandomDice(int count, Random random) {
+        this.count = count;
+        this.random = random;
+    }
+
+    @Override
+    public int roll() {
+        int total = 0;
+        for (int i = 0; i < count; i++) {
+            total += random.nextInt(6) + 1;
+        }
+        return total;
+    }
+}
+```
+
+### 📁 `game/`
 
 #### 📄 `game/Game.java`
 
@@ -494,6 +500,8 @@ public class TurnResult {
     }
 }
 ```
+
+### 📁 Client code (outside the packages)
 
 #### 📄 `Main.java`
 
