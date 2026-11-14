@@ -2,7 +2,7 @@
 
 Classic low level design interview questions, each solved with clean, runnable Java. Every question has the problem statement, requirements, a class diagram, the responsibility of each class, the design patterns used, and the follow-up questions an interviewer is likely to ask. All code compiles and runs with a `main` demo.
 
-**16 questions · 16 examples · 224 Java files**
+**17 questions · 17 examples · 234 Java files**
 
 ## 📚 All questions
 
@@ -24,6 +24,7 @@ Classic low level design interview questions, each solved with clean, runnable J
 | 14 | [💳 **Payment Gateway**](./14.%20Payment%20Gateway/README.md) | Route a charge through a fallback chain of providers, never double-charge the same request, and support refunds. | 1 | 16 |
 | 15 | [📅 **Meeting Scheduler**](./15.%20Meeting%20Scheduler/README.md) | Book a meeting only if every attendee and a big-enough room are free, suggest the earliest common slot, and cancel cleanly. | 1 | 17 |
 | 16 | [🎟️ **BookMyShow**](./16.%20BookMyShow/README.md) | Browse shows, lock seats while paying, confirm or release them, and never sell the same seat twice. | 1 | 26 |
+| 17 | [🗃️ **LRU Cache**](./17.%20LRU%20Cache/README.md) | A thread-safe, fixed-capacity cache with O(1) get and put that evicts the least recently used entry; plus striping, TTL, weighted eviction and metrics. | 1 | 10 |
 
 ## 📖 Question details
 
@@ -90,6 +91,9 @@ Classic low level design interview questions, each solved with clean, runnable J
 ### 16. 🎟️ [BookMyShow](./16.%20BookMyShow/README.md)
 
 > Design a **movie ticket booking system** like BookMyShow. Theatres have screens with seats of different classes; a movie plays on a screen as a **show**. A user searches shows by city and movie, picks seats, pays, and gets a confirmed booking. Two people must never end up with the same seat, a seat picked but not yet paid for must be held for a short time, and an abandoned hold must free itself.
+### 17. 🗃️ [LRU Cache](./17.%20LRU%20Cache/README.md)
+
+> Design an **LRU (Least Recently Used) Cache**: a generic, thread-safe, fixed-capacity key/value cache whose `get` and `put` both run in O(1) and which evicts the least recently used entry when full. Extensions cover striped locking, per-entry TTL, weight-based eviction and hit/miss metrics.
 
 ---
 
