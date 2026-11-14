@@ -642,6 +642,6 @@ java -cp out Main
 
 <div align="center">
 
-[◀ Chess](../9.%20Chess/README.md) &nbsp;·&nbsp; [📚 All questions](../QUESTIONS.md)
+[◀ Chess](../9.%20Chess/README.md) &nbsp;·&nbsp; [📚 All questions](../QUESTIONS.md) &nbsp;·&nbsp; [Apply Coupon ▶](../13.%20Apply%20Coupon/README.md)
 
 </div>
